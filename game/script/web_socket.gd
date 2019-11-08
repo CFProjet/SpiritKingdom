@@ -77,7 +77,7 @@ func _connection_closed():
 func _connection_error():
 	print("Connection Error")
 	connected = false;
-    
+
 func _process(delta):
 	if ws_client.get_connection_status() == ws_client.CONNECTION_CONNECTING || ws_client.get_connection_status() == ws_client.CONNECTION_CONNECTED:
 		ws_client.poll();
