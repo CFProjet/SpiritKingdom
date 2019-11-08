@@ -1,0 +1,26 @@
+{
+  "name": "sk_server",
+  "version": "0.0.1",
+  "description": "SpiritKingdom game server",
+  "main": "server.js",
+  "private": true,
+  "dependencies": {
+    "@gd-com/utils": "^4.0.1",
+    "file-system": "^2.2.2",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "ip": "^1.1.5",
+    "socket.io": "^2.2.0",
+    "uuid": "^3.3.3",
+    "ws": "^7.2.0"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
