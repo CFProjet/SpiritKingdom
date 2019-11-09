@@ -19,6 +19,11 @@ config/name="Spirit Kingdom"
 run/main_scene="res://scene/map/test.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+WS="*res://script/web_socket.gd"
+CServer="*res://script/client_server.gd"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"

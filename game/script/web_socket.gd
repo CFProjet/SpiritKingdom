@@ -9,7 +9,8 @@ var connected = false;
 var dicoCB = {};
 
 signal onConnected
-
+signal onConnectionError
+signal onConnectionClosed
 signal onServerDataReceived;
 signal onClientDataReceived;
 
@@ -73,10 +74,12 @@ func _connection_established(protocol):
 func _connection_closed():
 	print("Connection Closed")
 	connected = false;
+	emit_signal("onConnectionClosed");
 
 func _connection_error():
 	print("Connection Error")
 	connected = false;
+	emit_signal("onConnectionError");
 
 func _process(delta):
 	if ws_client.get_connection_status() == ws_client.CONNECTION_CONNECTING || ws_client.get_connection_status() == ws_client.CONNECTION_CONNECTED:
