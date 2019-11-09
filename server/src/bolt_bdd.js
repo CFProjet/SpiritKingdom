@@ -78,7 +78,7 @@ class BoltDataBase {
             fs.writeFileSync(this._filePath, data);
         }).bind(this);
         if (fs.existsSync(this._directoryPath) != true)
-            fs.mkdir(this._directoryPath, writeFile);
+            fs.mkdir(this._directoryPath, { recursive: true }, writeFile);
         else
             writeFile();
     }
