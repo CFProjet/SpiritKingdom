@@ -2,9 +2,8 @@
 
 [ext_resource path="res://scene2D/titleScreen.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/scene_title/title.png" type="Texture" id=2]
-[ext_resource path="res://scene2D/connectionPopup.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scene2D/connectionPopup.gd" type="Script" id=4]
-
+[ext_resource path="res://scene2D/connectionState.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scene2D/connectionPopup.tscn" type="PackedScene" id=4]
 
 [node name="titleScreen" type="Node2D"]
 script = ExtResource( 1 )
@@ -13,7 +12,7 @@ script = ExtResource( 1 )
 position = Vector2( 510, 80 )
 texture = ExtResource( 2 )
 
-[node name="connectionPopup" type="Node2D" parent="." instance=ExtResource( 3 )]
-editor/display_folded = true
+[node name="connectionState" parent="." instance=ExtResource( 3 )]
+
+[node name="connectionPopup" parent="." instance=ExtResource( 4 )]
 position = Vector2( 230, 180 )
-script = ExtResource( 4 )
