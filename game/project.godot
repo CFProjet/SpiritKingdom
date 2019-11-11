@@ -8,15 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Spatial",
+"class": "Map",
+"language": "GDScript",
+"path": "res://scene/map/map.gd"
+} ]
 _global_script_class_icons={
-
+"Map": ""
 }
 
 [application]
 
 config/name="Spirit Kingdom"
-run/main_scene="res://scene/map/test.tscn"
+run/main_scene="res://GAME.tscn"
 config/icon="res://icon.png"
 
 [autoload]
