@@ -7,6 +7,7 @@ var life = 1;
 var lifeMax = 200;
 var experience = 1;
 var level = 1;
+var moveSpeed = 600;
 var position = Vector3(0, 0, 0);
 
 func setData(data):
@@ -14,6 +15,7 @@ func setData(data):
 	self.lifeMax = data.lifeMax;
 	self.experience = data.experience;
 	self.level = data.level;
+	self.moveSpeed = data.moveSpeed;
 	self.position = Vector3();
 	self.position.x = data.position.x;
 	self.position.y = data.position.y;
@@ -27,6 +29,7 @@ func getData():
 	data.lifeMax = self.lifeMax;
 	data.experience = self.experience;
 	data.level = self.level;
+	data.moveSpeed = self.moveSpeed;
 	data.position = {};
 	data.position.x = self.position.x;
 	data.position.y = self.position.y;

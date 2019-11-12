@@ -2,17 +2,24 @@ var wssGodotClass = require("../src/godot_wss");
 var wssGodot;
 var boltDataBase = require("../src/bolt_bdd");
 var ip = require("ip");
-var bolt_cg = require("../src/bolt_class_generator");
 var alphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
 
+// BOLT CLASS GENERATOR
+var bolt_cg = require("../src/bolt_class_generator");
 bolt_cg.setPathJson(__dirname + "/../boltClass");
 bolt_cg.setGeneratedPath_js(__dirname + "/generatedClass.js");
 bolt_cg.setGeneratedPath_gd(__dirname + "/../../game/generated/");
 bolt_cg.loadJsonClass();
 bolt_cg.generateFileClass_js();
 bolt_cg.generateFileClass_gd();
-
 var BC = require("./generatedClass");
+
+// PLAYER MANAGER
+var playerManager = require("./playerManager");
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 function init(localDevMode, httpsOptions) {
 
@@ -43,7 +50,7 @@ function init(localDevMode, httpsOptions) {
     wssGodot.addEvent("TAG_LOGIN", (data) => {
 
         // ON VERFIRIE QUE CE QUI ARRIVE SUR LE SERVER EST BIEN CE QUI EST ATTENDU
-        if (bolt_cg.isSameType(data, new BC.BC_Login()) != true)
+        if (bolt_cg.isSameType(data, new BC.BC_EventLogin()) != true)
             return { error: true, errorStr: "Objet reference error" };
 
         // ON NE PAS PEUT ETRE CERTAIN QU'UN UTILISATEUR A BIEN RESPECTER LES LIMITATIONS DE CHAR DU PSEUDO ALORS ON REVERIFIE
@@ -80,33 +87,35 @@ function init(localDevMode, httpsOptions) {
                 return {error : true, errorStr : "invalide password"};
             }
         }
-        // S'il n'existe
+        // S'il n'existe pas
         else{
             // On créer l'utilisateur
             userBase.set(data.userName, "hashPass", data.hashPass);
         }
+    
+        // ON CREER UN NOUVEAU TOKEN D'AUTHORISATION CONTROL UNIQUE
+        var tokenControl = "t_" + Math.floor(Date.now() + Math.random() * 100000) + data.hashPass.substring(0,10);
         userBase.stopUse();
 
-        // ON ENVOIS L'ETAT D'UN JOUEUR
-        return getPlayerState(data.userName, true);
+        playerManager.setControlToken(data.userName, tokenControl);
+
+        // ON ENVOIS LE TOKEN DE CONTROL A L'UTILISATEUR
+        return tokenControl;
     });
-}
 
 
-function getPlayerState(userName, connection){
-    let playerStateBase = boltDataBase.getDataBase("history/spirit_kingdom/users", "state");
-    var state = playerStateBase.get(userName, "state");
+    //
+    wssGodot.addEvent("TAG_GET_PLAYER", (data) => {
 
-    // SI LE STATE N'EXISTE PAS ET QUE LE JOUEUR VEUX SE CONNECTER, ON CREER SON ETAT D'ORIGINE
-    if (state == null && connection){
-        state = new BC.BC_PlayerState();
-        playerStateBase.set(userName, "state", state);
-    }
+        // ON VERFIRIE QUE CE QUI ARRIVE SUR LE SERVER EST BIEN CE QUI EST ATTENDU
+        if (bolt_cg.isSameType(data, new BC.BC_EventGetPlayer()) != true)
+            return { error: true, errorStr: "Objet reference error" };
+    
+        // ON ENVOIS LE TOKEN DE CONTROL A L'UTILISATEUR
+        return playerManager.getPlayerState(data.userName, data.controlToken);
+    });
 
-    // ne jamais oublié de signaler la fin de l'utilisation d'une bdd
-    playerStateBase.stopUse();
 
-    return state;
 }
 
 

@@ -64,11 +64,13 @@ func connection():
 		CServer.login(pseudo, hashPass, funcref(self, "onLogin"));
 
 func onLogin(serverObj):
-	if serverObj.has("error"):
-		errorTxt.bbcode_text = "[center]" + serverObj.errorStr;
+	var errorStr = CServer.getServerResponseError(serverObj);
+	if errorStr:
+		errorTxt.bbcode_text = "[center]" + errorStr;
 		errorTxt.visible = true;
 	else:
-		emit_signal("onConnected", serverObj);
+		var controlToken = serverObj;
+		emit_signal("onConnected");
 		queue_free();
 
 func onClickBtnDone(event : InputEvent):

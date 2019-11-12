@@ -3,5 +3,6 @@
     "lifeMax" : 200,
     "experience" : 1,
     "level" : 1,
+    "moveSpeed" : 600,
     "position" :{"x" : 0, "y" : 0, "z" : 0}
 }
