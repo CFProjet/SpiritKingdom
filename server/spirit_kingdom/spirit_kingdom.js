@@ -2,9 +2,17 @@ var wssGodotClass = require("../src/godot_wss");
 var wssGodot;
 var boltDataBase = require("../src/bolt_bdd");
 var ip = require("ip");
-
+var bolt_cg = require("../src/bolt_class_generator");
 var alphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
 
+bolt_cg.setPathJson(__dirname + "/../boltClass");
+bolt_cg.setGeneratedPath_js(__dirname + "/generatedClass.js");
+bolt_cg.setGeneratedPath_gd(__dirname + "/../../game/generated/");
+bolt_cg.loadJsonClass();
+bolt_cg.generateFileClass_js();
+bolt_cg.generateFileClass_gd();
+
+var boltClass = require("./generatedClass");
 
 function init(localDevMode, httpsOptions) {
 
@@ -93,7 +101,7 @@ function getPlayerState(userName, connection){
 
     // SI LE STATE N'EXISTE PAS ET QUE LE JOUEUR VEUX SE CONNECTER, ON CREER SON ETAT D'ORIGINE
     if (state == null && connection){
-        state = {level : 1, experience : 0, life : 1, lifeMax : 200, position : {x : 0, y : 0, z : 0}};
+        state = new boltClass.PlayerState();
         playerStateBase.set(userName, "state", state);
     }
 

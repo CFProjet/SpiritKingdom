@@ -10,8 +10,8 @@ func _ready():
 	buildTitle();
 
 
-func refreshPlayerWorld(playerServerData):
-	var data = {level = playerServerData.level, experience = playerServerData.experience, life = playerServerData.life, lifeMax = playerServerData.lifeMax, position = playerServerData.position};
+func refreshPlayerWorld(playerState):
+	var data = PlayerState.new().assignData(playerState);
 	buildScene(mapTestPFB, Vector3(data.position.x, data.position.y, data.position.z));
 	
 func clearWorld():

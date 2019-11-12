@@ -9,13 +9,25 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "Evolve",
+"language": "GDScript",
+"path": "res://generated/Evolve.gd"
+}, {
 "base": "Spatial",
 "class": "Map",
 "language": "GDScript",
 "path": "res://scene/map/map.gd"
+}, {
+"base": "Reference",
+"class": "PlayerState",
+"language": "GDScript",
+"path": "res://generated/PlayerState.gd"
 } ]
 _global_script_class_icons={
-"Map": ""
+"Evolve": "",
+"Map": "",
+"PlayerState": ""
 }
 
 [application]
