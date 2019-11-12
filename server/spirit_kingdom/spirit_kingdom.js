@@ -12,7 +12,7 @@ bolt_cg.loadJsonClass();
 bolt_cg.generateFileClass_js();
 bolt_cg.generateFileClass_gd();
 
-var boltClass = require("./generatedClass");
+var BC = require("./generatedClass");
 
 function init(localDevMode, httpsOptions) {
 
@@ -43,9 +43,7 @@ function init(localDevMode, httpsOptions) {
     wssGodot.addEvent("TAG_LOGIN", (data) => {
 
         // ON VERFIRIE QUE CE QUI ARRIVE SUR LE SERVER EST BIEN CE QUI EST ATTENDU
-        let ref = { userName: "exemple", hashPass : "exemple" };
-        let valideRef = checkValideObjFromReference(data, ref);
-        if (!valideRef)
+        if (bolt_cg.isSameType(data, new BC.BC_Login()) != true)
             return { error: true, errorStr: "Objet reference error" };
 
         // ON NE PAS PEUT ETRE CERTAIN QU'UN UTILISATEUR A BIEN RESPECTER LES LIMITATIONS DE CHAR DU PSEUDO ALORS ON REVERIFIE
@@ -101,7 +99,7 @@ function getPlayerState(userName, connection){
 
     // SI LE STATE N'EXISTE PAS ET QUE LE JOUEUR VEUX SE CONNECTER, ON CREER SON ETAT D'ORIGINE
     if (state == null && connection){
-        state = new boltClass.PlayerState();
+        state = new BC.BC_PlayerState();
         playerStateBase.set(userName, "state", state);
     }
 
@@ -113,24 +111,3 @@ function getPlayerState(userName, connection){
 
 
 exports.init = init;
-
-
-var checkValideObjFromReference = (obj, reference) => {
-    for (var key in reference) {
-        if (obj[key] == undefined || typeof obj[key] != typeof reference[key]) {
-            console.log("Wrong obj received !")
-            console.log("obj[ " + typeof obj[key] + " ]('" + key + "' )");
-            console.log("ref[ " + typeof reference[key] + " ]('" + key + "' )");
-            return 0;
-        }
-    }
-    for (var key in obj) {
-        if (reference[key] == undefined || typeof obj[key] != typeof reference[key]) {
-            console.log("Wrong obj received !")
-            console.log("ref[ " + typeof obj[key] + " ]('" + key + "' )");
-            console.log("obj[ " + typeof reference[key] + " ]('" + key + "' )");
-            return 0;
-        }
-    }
-    return 1;
-}

@@ -10,24 +10,30 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Reference",
-"class": "Evolve",
+"class": "BC_Evolve",
 "language": "GDScript",
-"path": "res://generated/Evolve.gd"
+"path": "res://generated/BC_Evolve.gd"
+}, {
+"base": "Reference",
+"class": "BC_Login",
+"language": "GDScript",
+"path": "res://generated/BC_Login.gd"
+}, {
+"base": "Reference",
+"class": "BC_PlayerState",
+"language": "GDScript",
+"path": "res://generated/BC_PlayerState.gd"
 }, {
 "base": "Spatial",
 "class": "Map",
 "language": "GDScript",
 "path": "res://scene/map/map.gd"
-}, {
-"base": "Reference",
-"class": "PlayerState",
-"language": "GDScript",
-"path": "res://generated/PlayerState.gd"
 } ]
 _global_script_class_icons={
-"Evolve": "",
-"Map": "",
-"PlayerState": ""
+"BC_Evolve": "",
+"BC_Login": "",
+"BC_PlayerState": "",
+"Map": ""
 }
 
 [application]

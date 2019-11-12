@@ -11,7 +11,7 @@ func _ready():
 
 
 func refreshPlayerWorld(playerState):
-	var data = PlayerState.new().assignData(playerState);
+	var data = BC_PlayerState.new().setData(playerState);
 	buildScene(mapTestPFB, Vector3(data.position.x, data.position.y, data.position.z));
 	
 func clearWorld():

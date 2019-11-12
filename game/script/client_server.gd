@@ -30,9 +30,11 @@ func onConnectionClosed():
 	
 
 func login(userName : String, hashPass : String, callback : FuncRef):
-	var obj = {userName = userName, hashPass = hashPass};
+	var loginObj = BC_Login.new();
+	loginObj.userName = userName;
+	loginObj.hashPass = hashPass;
 	_onLoginCB = callback;
-	WS.sendServerData(TAG_LOGIN, obj, funcref(self, "onLogin"));
+	WS.sendServerData(TAG_LOGIN, loginObj.getData(), funcref(self, "onLogin"));
 
 func onLogin(objServer):
 	if !objServer.has("error"):

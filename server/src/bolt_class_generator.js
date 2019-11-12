@@ -66,14 +66,62 @@ function generateFileClass_gd() {
             data += getStringData_gd(val);
             data += ";";
         }
-        data += "\n\nfunc assignData(data):";
-        data += add_gd_assign(obj, "");
+
+
+        data += "\n\nfunc setData(data):";
+        data += add_gd_setData(obj, "");
         data += "\n\treturn self;\n";
+
+        data += "\n\nfunc getData():";
+        data += "\n\tvar data = {};"
+        data += add_gd_getData(obj, "");
+        data += "\n\treturn data;\n";
+
+
         fs.writeFileSync(generatedPath_gd + "/" + o + ".gd", data);
     }
 }
 
-function add_gd_assign(obj, path) {
+function add_gd_getData(obj, path) {
+    var data = "";
+    if (Array.isArray(obj)) {
+        let prePath = path;
+        if (prePath[prePath.length - 1] == "]"){
+            prePath = prePath.substring(0, prePath.lastIndexOf("["));
+            data += "\n\tdata" + prePath + ".push([]);"
+        }else
+            data += "\n\tdata" + prePath + " = [];"
+
+        let i = 0;
+        let len = obj.length;
+        while (i < len) {
+            data += add_gd_getData(obj[i], path + "[" + i + "]");
+            i += 1;
+        }
+    } else if (typeof obj == "object") {
+        if (path != "") {
+            let prePath = path;
+            if (prePath[prePath.length - 1] == "]"){
+                prePath = prePath.substring(0, prePath.lastIndexOf("["));
+                data += "\n\tdata" + prePath + ".push({});"
+            }else
+                data += "\n\tdata" + prePath + " = {};";
+        }
+        for (k in obj)
+            data += add_gd_getData(obj[k], path + (path[path.length - 1] == "." ? "" : ".") + k);
+    } else {
+        let prePath = path;
+        if (prePath[prePath.length - 1] == "]"){
+            prePath = prePath.substring(0, prePath.lastIndexOf("["));
+            data += "\n\tdata" + prePath + ".push(self" + path + ");"
+        }else
+            data += "\n\tdata" + prePath + " = self" + path + ";"
+    }
+    return data;
+}
+
+
+function add_gd_setData(obj, path) {
     var data = "";
     if (Array.isArray(obj)) {
         let prePath = path;
@@ -86,7 +134,7 @@ function add_gd_assign(obj, path) {
         let i = 0;
         let len = obj.length;
         while (i < len) {
-            data += add_gd_assign(obj[i], path + "[" + i + "]");
+            data += add_gd_setData(obj[i], path + "[" + i + "]");
             i += 1;
         }
     } else if (typeof obj == "object") {
@@ -95,7 +143,7 @@ function add_gd_assign(obj, path) {
             // Looking for gd classe know
             let val = "";
             val = get_gd_class_Type(obj);
-            if (val != null)
+            if (val !== null)
                 val += '()';
             else
                 val = "{}";
@@ -108,7 +156,7 @@ function add_gd_assign(obj, path) {
                 data += "\n\tself" + prePath + " = " + val + ";";
         }
         for (k in obj)
-            data += add_gd_assign(obj[k], path + (path[path.length - 1] == "." ? "" : ".") + k);
+            data += add_gd_setData(obj[k], path + (path[path.length - 1] == "." ? "" : ".") + k);
     } else {
         let prePath = path;
         if (prePath[prePath.length - 1] == "]"){
@@ -121,7 +169,7 @@ function add_gd_assign(obj, path) {
 }
 
 function get_gd_class_Type(obj){
-    if (obj == null || obj == undefined)
+    if (obj === null || obj === undefined)
         return null;
     var keyTab = Object.keys(obj);
     var len = keyTab.length;
@@ -137,7 +185,7 @@ function get_gd_class_Type(obj){
 }
 
 function getStringData_gd(data) {
-    if (data == null) {
+    if (data === null) {
         return "null";
     }else if (typeof data == "boolean"){
         return data ? "true" : "false";
@@ -227,7 +275,7 @@ function getStringData(data) {
 }
 
 
-function newObject(type) {
+function getCopy(type) {
     var objRef = objDictionnary[type];
     var objCpy = {};
     setCpyDico(objCpy, objRef);
@@ -273,6 +321,34 @@ function setCpyTab(target, source) {
 }
 
 
+function isSameType(data, ref){
+    if (ref === null)
+        return true;
+    if (data === null || data === undefined)
+        return false;
+    
+    for (k in ref){
+        let valRef = ref[k];
+        let val = data[k];
+        if (valRef === null)
+            continue;
+        else if (typeof valRef == typeof val){
+            if (typeof valRef == "object"){
+                if (Array.isArray(valRef) != Array.isArray(val))
+                    return false;
+                else if(!Array.isArray(valRef)){
+                    for (k2 in valRef){
+                        if (!isTypeOf(val[k2], valRef[k2]))
+                            return false;
+                    }
+                }
+            }
+        }else
+            return false;
+    }
+    return true;
+}
+
 
 exports.setPathJson = (path) => { jsonPath = path };
 exports.setGeneratedPath_js = (path) => { generatedPath_js = path };
@@ -280,4 +356,5 @@ exports.setGeneratedPath_gd = (path) => { generatedPath_gd = path };
 exports.loadJsonClass = loadJsonClass;
 exports.generateFileClass_js = generateFileClass_js;
 exports.generateFileClass_gd = generateFileClass_gd;
-exports.newObject = newObject;
+exports.getCopy = getCopy;
+exports.isSameType = isSameType; 
