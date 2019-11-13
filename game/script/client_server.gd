@@ -2,6 +2,8 @@ extends Node
 
 const TAG_LOGIN = "TAG_LOGIN";
 const TAG_GET_PLAYER = "TAG_GET_PLAYER";
+const TAG_MOVE_PLAYER = "TAG_MOVE_PLAYER";
+const TAG_GET_TIMESTAMP = "TAG_GET_TIMESTAMP";
 
 
 var _onLoginCB = null;
@@ -9,6 +11,10 @@ var _loged = false;
 var controlToken = null;
 var userName = null;
 var connected = false;
+
+var _initedTimeStamp = false;
+var timeStamp setget, _getTimeStamp;
+var _tstamp = 0;
 
 var serverURL : String = "192.168.1.100:7788";
 
@@ -30,15 +36,34 @@ func getConnectionState():
 
 func onConnectedToServer():
 	connected = true;
-	
+	_TstampStartRequete = _tstamp;
+	WS.sendServerData(TAG_GET_TIMESTAMP, {}, funcref(self, "_setTstamp"));
+
+var _TstampStartRequete;
+func _setTstamp(time):
+	var dt = _tstamp - _TstampStartRequete;
+	_tstamp = time + dt * 0.5;
+
+
 func onConnectionClosed():
 	connected = false;
+
+func _getTimeStamp():
+	return _tstamp;
 
 func getPlayerState(callback : FuncRef):
 	var getPlayerObj = BC_EventGetPlayer.new();
 	getPlayerObj.controlToken = controlToken;
 	getPlayerObj.userName = userName;
 	WS.sendServerData(TAG_GET_PLAYER, getPlayerObj.getData(), callback);
+
+func movePlayer(direction : Vector3, duration):
+	var movePlayerObj = BC_EventMove.new();
+	movePlayerObj.controlToken = controlToken;
+	movePlayerObj.userName = userName;
+	movePlayerObj.direction = direction;
+	movePlayerObj.duration = duration;
+	WS.sendServerData(TAG_MOVE_PLAYER, movePlayerObj.getData());
 
 func getServerResponseError(objServer):
 	if objServer is Object:
@@ -63,3 +88,5 @@ func onLogin(objServer):
 func onEventServerReceived(tag, dataObj):
 	emit_signal("onEventServer", tag, dataObj);
 	
+func _process(delta):
+	_tstamp += delta * 1000;

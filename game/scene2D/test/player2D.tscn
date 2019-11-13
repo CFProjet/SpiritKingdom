@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/images/interface/btn_blue.png" type="Texture" id=1]
+
+[node name="player2D" type="Node2D"]
+
+[node name="name" type="RichTextLabel" parent="."]
+margin_left = -40.0
+margin_top = -36.0
+margin_right = 38.0
+margin_bottom = -10.0
+bbcode_enabled = true
+scroll_active = false
+
+[node name="look" type="Sprite" parent="."]
+scale = Vector2( 0.12342, 0.50776 )
+texture = ExtResource( 1 )

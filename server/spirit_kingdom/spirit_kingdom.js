@@ -16,6 +16,8 @@ var BC = require("./generatedClass");
 
 // PLAYER MANAGER
 var playerManager = require("./playerManager");
+// EVENT MAP MANAGER
+var eventMapManager = require("./entityMapManager");
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +35,7 @@ function init(localDevMode, httpsOptions) {
     }
     wssGodot = wssGodotClass.new(serverWs);
     serverWs.listen(port);
+    eventMapManager.init(wssGodot);
 
     // SUCCESS
     console.log("spiritKingdom wss : " + ip.address() + ":" + port)
@@ -41,13 +44,17 @@ function init(localDevMode, httpsOptions) {
     // ON AJOUTE LES EVENT D'ECOUTE DU SERVER
 
     // SIMPLE PING
-    wssGodot.addEvent("ping", (data) => {
+    wssGodot.addEvent("ping", (data, clientWs) => {
         return true;
+    });
+
+    wssGodot.addEvent("TAG_GET_TIMESTAMP", (data, clientWs) => {
+        return Date.now();
     });
 
 
     // LOGIN
-    wssGodot.addEvent("TAG_LOGIN", (data) => {
+    wssGodot.addEvent("TAG_LOGIN", (data, clientWs) => {
 
         // ON VERFIRIE QUE CE QUI ARRIVE SUR LE SERVER EST BIEN CE QUI EST ATTENDU
         if (bolt_cg.isSameType(data, new BC.BC_EventLogin()) != true)
@@ -104,18 +111,32 @@ function init(localDevMode, httpsOptions) {
     });
 
 
-    //
-    wssGodot.addEvent("TAG_GET_PLAYER", (data) => {
+    wssGodot.addEvent("TAG_GET_PLAYER", (data, clientWs) => {
 
         // ON VERFIRIE QUE CE QUI ARRIVE SUR LE SERVER EST BIEN CE QUI EST ATTENDU
         if (bolt_cg.isSameType(data, new BC.BC_EventGetPlayer()) != true)
             return { error: true, errorStr: "Objet reference error" };
     
-        // ON ENVOIS LE TOKEN DE CONTROL A L'UTILISATEUR
-        return playerManager.getPlayerState(data.userName, data.controlToken);
+        // ON ENVOIS L'ETAT DU JOUEUR A L'UTILISATEUR ET AUX AUTRES UTILISATEUR
+        var state = playerManager.getPlayerState(data.userName, data.controlToken);
+        eventMapManager.refreshPlayerPosition(data.userName, state.position, state,  clientWs);
+        return state;
     });
 
+    wssGodot.addEvent("TAG_MOVE_PLAYER", (data, clientWs) => {
 
+        // ON VERFIRIE QUE CE QUI ARRIVE SUR LE SERVER EST BIEN CE QUI EST ATTENDU
+        if (bolt_cg.isSameType(data, new BC.BC_EventMove()) != true)
+            return { error: true, errorStr: "Objet reference error" };
+        
+        // ON APPLIQUE LE MOUVEMENT
+        var state = playerManager.movePlayer(data.userName, data.direction, data.duration, data.controlToken);
+        // ERROR
+        if (state["error"])
+            return null;
+        // ON RAFRAICHIT LA MAP
+        eventMapManager.refreshPlayerPosition(data.userName, state.position, state, clientWs);
+    });
 }
 
 

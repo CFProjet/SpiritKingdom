@@ -1,6 +1,6 @@
 {
-    "propriety" : "",
-    "newValue" : null,
+    "property" : "",
     "speed" : "",
-    "time" : 0
+    "time" : 0,
+    "duration": 0
 }

@@ -1,4 +1,6 @@
 {
     "controlToken" : "token",
-    "destination":{"x" : 0, "y" : 0, "z" : 0}
+    "userName" : "userName",
+    "direction":{"x" : 0, "y" : 0, "z" : 0},
+    "duration" : 0
 }

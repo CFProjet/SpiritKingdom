@@ -1,6 +1,7 @@
 var boltDataBase = require("../src/bolt_bdd");
 var BC = require("./generatedClass");
 
+var stateManager = require("./stateManager");
 
 var afkTimeKick = 1000 * 60 * 10; // 10 MIN
 
@@ -15,6 +16,8 @@ function setControlToken(userName, controlToken){
     // SI LE STATE N'EXISTE PAS, ON CREER  l'ETAT D'ORIGINE
     if (state == null){
         state = new BC.BC_PlayerState();
+        state.userName = userName;
+        state.creationTime = Date.now();
         playerStateBase.set(userName, "state", state);
     }
 
@@ -57,6 +60,50 @@ function getPlayerState(userName, controlToken){
 }
 
 
+function movePlayer(userName, direction, duration, controlToken){
+        // ON VERIFIE QUE L'UTILISATEUR EST BIEN PROPRIETAIRE DU JOUEUR
+    if (!isValideControlToken(userName, controlToken))
+        return {error : true, errorStr : "invalide token"};
+    
+    let playerStateBase = boltDataBase.getDataBase("history/spirit_kingdom/users", "state");
+    var state = playerStateBase.get(userName, "state");
+    stateManager.clearEvolve(state);
+    stateManager.applyEvolve(state, "position");
+    var evolve = new BC.BC_Evolve();
+    evolve.property = "position";
+    evolve.speed = getSpeedVector(direction, state.moveSpeed);
+    evolve.duration = duration;
+    evolve.time = Date.now();
+    stateManager.addEvolve(state, evolve);
+    playerStateBase.set(userName, "state", state);
+    playerStateBase.stopUse();
+    return state;
+}
+
+function getSpeedVector(direction, speed){
+    direction.x *= speed;
+    direction.y *= speed;
+    direction.z *= speed;
+    return direction;
+}
+
+function getNormalisedDirVector3(fromVec3, toVect3){
+    var vec = {x : toVect3.x - fromVec3.x, y : toVect3.y - fromVec3.y, z : toVect3.z - fromVec3.z};
+    return normaliseVector3(vec);
+}
+
+function normaliseVector3(vector3){
+    let norm = getVector3Norm(vector3);
+    var vecNorm = {x : vector3.x / norm, y : vector3.y / norm.y, z : vector3.z/norm};
+    return vecNorm;
+}
+
+function getVector3Norm(vector3){
+    return Math.sqrt(vector3.x * vector3.x + vector3.y * vector3.y, vector3.z * vector3.z);
+}
+
+
 exports.getPlayerState = getPlayerState;
+exports.movePlayer = movePlayer;
 exports.setControlToken = setControlToken;
 exports.isValideControlToken = isValideControlToken;

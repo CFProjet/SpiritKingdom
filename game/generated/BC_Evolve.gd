@@ -3,23 +3,23 @@
 class_name BC_Evolve
 
 
-var propriety = "";
-var newValue = null;
+var property = "";
 var speed = "";
 var time = 0;
+var duration = 0;
 
 func setData(data):
-	self.propriety = data.propriety;
-	self.newValue = {};
+	self.property = data.property;
 	self.speed = data.speed;
 	self.time = data.time;
+	self.duration = data.duration;
 	return self;
 
 
 func getData():
 	var data = {};
-	data.propriety = self.propriety;
-	data.newValue = {};
+	data.property = self.property;
 	data.speed = self.speed;
 	data.time = self.time;
+	data.duration = self.duration;
 	return data;

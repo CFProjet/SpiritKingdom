@@ -118,14 +118,14 @@ class GodotWss {
     }
 
     sendclientTabEvent(tag, data, clientTab){
-        var data = { tag: tag, data: res };
-        var resDataStr = JSON.stringify(data);
+        var res = { tag: tag, data: data };
+        var resDataStr = JSON.stringify(res);
         this.sendPacket(2, resDataStr, clientTab);
     }
 
     sendclientEvent(tag, data, wsClient){
-        var data = { tag: tag, data: res };
-        var resDataStr = JSON.stringify(data);
+        var res = { tag: tag, data: data };
+        var resDataStr = JSON.stringify(res);
         this.sendPacket(2, resDataStr, [wsClient]);
     }
 
