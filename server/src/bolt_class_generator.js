@@ -338,7 +338,7 @@ function isSameType(data, ref){
                     return false;
                 else if(!Array.isArray(valRef)){
                     for (k2 in valRef){
-                        if (!isTypeOf(val[k2], valRef[k2]))
+                        if (!isSameType(val[k2], valRef[k2]))
                             return false;
                     }
                 }
