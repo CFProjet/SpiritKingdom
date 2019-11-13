@@ -71,7 +71,7 @@ class GodotWss {
                         return;
                     }
                     if (obj && obj.tag && obj.data) {
-                        var res = this.processEvent(obj.tag, obj.data);
+                        var res = this.processEvent(obj.tag, obj.data, ws);
                         if (!obj.id)
                             return;
                         // CALLBACK PROCESS
@@ -117,6 +117,11 @@ class GodotWss {
         })
     }
 
+    sendclientEvent(tag, data, wsClient){
+        var data = { tag: tag, data: res };
+        var resDataStr = JSON.stringify(data);
+        this.sendPacket(2, resDataStr, [wsClient]);
+    }
 
 
     sendPacket(type, dataStr, clientTab) {
@@ -208,12 +213,12 @@ class GodotWss {
     }
     
     /** Return the server response as object {} */
-    processEvent(tag, data){
+    processEvent(tag, data, ws){
         var res = null;
     
         let event = this.eventList[tag];
         if (event)
-            res = event(data);
+            res = event(data, ws);
     
         return res;
     }

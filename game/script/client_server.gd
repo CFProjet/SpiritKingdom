@@ -12,9 +12,12 @@ var connected = false;
 
 var serverURL : String = "192.168.1.100:7788";
 
+signal onEventServer
+
 func _ready():
 	WS.connect("onConnected", self, "onConnectedToServer");
 	WS.connect("onConnectionClosed", self, "onConnectionClosed");
+	WS.connect("onServerDataReceived", self, "onEventServerReceived");
 	WS.startConnection(serverURL);
 
 func getConnectionState():
@@ -56,3 +59,7 @@ func onLogin(objServer):
 		_loged = true;
 		controlToken = objServer;
 	_onLoginCB.call_func(objServer);
+	
+func onEventServerReceived(tag, dataObj):
+	emit_signal("onEventServer", tag, dataObj);
+	
