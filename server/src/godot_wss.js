@@ -34,7 +34,7 @@ class GodotWss {
             ws["uuid"] = uuid;
 
             // REMOVE CLIENT
-            ws.on("close", (ws) => {
+            ws.addEventListener("close", (ws) => {
                 delete this.clientList[uuid];
             })
 
@@ -115,6 +115,12 @@ class GodotWss {
                 }
             })
         })
+    }
+
+    sendclientTabEvent(tag, data, clientTab){
+        var data = { tag: tag, data: res };
+        var resDataStr = JSON.stringify(data);
+        this.sendPacket(2, resDataStr, clientTab);
     }
 
     sendclientEvent(tag, data, wsClient){
