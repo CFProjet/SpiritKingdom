@@ -23,14 +23,18 @@ func connection():
 	var password = passwordTxt.text;
 	
 	var errorStr = null;
+	
+	if !CServer.connected:
+		errorStr = "No connection with server...";
 
 	# CHECK PSEUDO LENGTH
-	if pseudo.length() == 0:
-		errorStr = "Entrez un pseudo";
-	elif pseudo.length() < 4:
-		errorStr = "Pseudo : Trop court";
-	elif pseudo.length() > 15:
-		errorStr = "Pseudo : Trop long";
+	if errorStr == null:
+		if pseudo.length() == 0:
+			errorStr = "Entrez un pseudo";
+		elif pseudo.length() < 4:
+			errorStr = "Pseudo : Trop court";
+		elif pseudo.length() > 15:
+			errorStr = "Pseudo : Trop long";
 	
 	# CHECK VALIDE CHAR:
 	if errorStr == null:
@@ -60,11 +64,13 @@ func connection():
 		CServer.login(pseudo, hashPass, funcref(self, "onLogin"));
 
 func onLogin(serverObj):
-	if serverObj.has("error"):
-		errorTxt.bbcode_text = "[center]" + serverObj.errorStr;
+	var errorStr = CServer.getServerResponseError(serverObj);
+	if errorStr:
+		errorTxt.bbcode_text = "[center]" + errorStr;
 		errorTxt.visible = true;
 	else:
-		emit_signal("onConnected", serverObj);
+		var controlToken = serverObj;
+		emit_signal("onConnected");
 		queue_free();
 
 func onClickBtnDone(event : InputEvent):

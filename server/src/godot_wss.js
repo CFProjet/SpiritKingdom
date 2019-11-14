@@ -34,7 +34,7 @@ class GodotWss {
             ws["uuid"] = uuid;
 
             // REMOVE CLIENT
-            ws.on("close", (ws) => {
+            ws.addEventListener("close", (ws) => {
                 delete this.clientList[uuid];
             })
 
@@ -71,7 +71,7 @@ class GodotWss {
                         return;
                     }
                     if (obj && obj.tag && obj.data) {
-                        var res = this.processEvent(obj.tag, obj.data);
+                        var res = this.processEvent(obj.tag, obj.data, ws);
                         if (!obj.id)
                             return;
                         // CALLBACK PROCESS
@@ -117,6 +117,17 @@ class GodotWss {
         })
     }
 
+    sendclientTabEvent(tag, data, clientTab){
+        var res = { tag: tag, data: data };
+        var resDataStr = JSON.stringify(res);
+        this.sendPacket(2, resDataStr, clientTab);
+    }
+
+    sendclientEvent(tag, data, wsClient){
+        var res = { tag: tag, data: data };
+        var resDataStr = JSON.stringify(res);
+        this.sendPacket(2, resDataStr, [wsClient]);
+    }
 
 
     sendPacket(type, dataStr, clientTab) {
@@ -208,12 +219,12 @@ class GodotWss {
     }
     
     /** Return the server response as object {} */
-    processEvent(tag, data){
+    processEvent(tag, data, ws){
         var res = null;
     
         let event = this.eventList[tag];
         if (event)
-            res = event(data);
+            res = event(data, ws);
     
         return res;
     }

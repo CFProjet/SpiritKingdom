@@ -1,0 +1,13 @@
+{
+    "type" : "player",
+    "userName" : "userName",
+    "creationTime" : 0,
+    "life" : 1,
+    "lifeMax" : 200,
+    "experience" : 1,
+    "level" : 1,
+    "moveSpeed" : 100,
+    "position" :{"x" : 0, "y" : 0, "z" : 0},
+    "evolveDictionnary" : {},
+    "lastRefreshTime": 0
+}

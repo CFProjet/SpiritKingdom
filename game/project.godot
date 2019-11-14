@@ -8,21 +8,69 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Reference",
+"class": "BC_EventGetPlayer",
+"language": "GDScript",
+"path": "res://generated/BC_EventGetPlayer.gd"
+}, {
+"base": "Reference",
+"class": "BC_EventLogin",
+"language": "GDScript",
+"path": "res://generated/BC_EventLogin.gd"
+}, {
+"base": "Reference",
+"class": "BC_EventMove",
+"language": "GDScript",
+"path": "res://generated/BC_EventMove.gd"
+}, {
+"base": "Reference",
+"class": "BC_Evolve",
+"language": "GDScript",
+"path": "res://generated/BC_Evolve.gd"
+}, {
+"base": "Reference",
+"class": "BC_Login",
+"language": "GDScript",
+"path": "res://generated/BC_Login.gd"
+}, {
+"base": "Reference",
+"class": "BC_PlayerState",
+"language": "GDScript",
+"path": "res://generated/BC_PlayerState.gd"
+}, {
+"base": "Spatial",
+"class": "Map",
+"language": "GDScript",
+"path": "res://scene/map/map.gd"
+}, {
+"base": "Node",
+"class": "ServerEntityMap",
+"language": "GDScript",
+"path": "res://script/server_entity_map.gd"
+} ]
 _global_script_class_icons={
-
+"BC_EventGetPlayer": "",
+"BC_EventLogin": "",
+"BC_EventMove": "",
+"BC_Evolve": "",
+"BC_Login": "",
+"BC_PlayerState": "",
+"Map": "",
+"ServerEntityMap": ""
 }
 
 [application]
 
 config/name="Spirit Kingdom"
-run/main_scene="res://scene/map/test.tscn"
+run/main_scene="res://GAME.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 WS="*res://script/web_socket.gd"
 CServer="*res://script/client_server.gd"
+StateManager="*res://script/state_manager.gd"
 
 [rendering]
 
