@@ -11,6 +11,9 @@ margin_right = 38.0
 margin_bottom = -10.0
 bbcode_enabled = true
 scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="look" type="Sprite" parent="."]
 scale = Vector2( 0.12342, 0.50776 )

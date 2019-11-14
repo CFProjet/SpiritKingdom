@@ -16,7 +16,7 @@ var _initedTimeStamp = false;
 var timeStamp setget, _getTimeStamp;
 var _tstamp = 0;
 
-var serverURL : String = "192.168.1.100:7788";
+var serverURL : String = "localhost:7788";
 
 signal onEventServer
 

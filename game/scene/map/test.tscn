@@ -33,4 +33,12 @@ script = ExtResource( 2 )
 margin_right = 1029.0
 margin_bottom = 597.0
 mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.57589, 0.817527, 5.401e-09, 0.0660201, -0.0465065, 0.996734, 0.814857, -0.574009, -0.0807558, 0, 3.48809, 0 )
+light_energy = 0.5
+shadow_enabled = true
 [connection signal="gui_input" from="test2D/input" to="test2D" method="_on_input_gui_input"]
