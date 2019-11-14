@@ -7,7 +7,7 @@ var _onLoginCB = null;
 var _loged = false;
 var connected = false;
 
-var serverURL : String = "192.168.1.100:7788";
+var serverURL : String = "localhost:7788";
 
 func _ready():
 	WS.connect("onConnected", self, "onConnectedToServer");

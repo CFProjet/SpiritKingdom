@@ -11,21 +11,21 @@ size = Vector3( 20, 2, 20 )
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 10, 1, 10 )
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 0.160784, 0.592157, 0.968627, 0.262745, 0, 0, 0, 0 )
 
-[sub_resource type="GradientTexture" id=10]
-gradient = SubResource( 9 )
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 width = 580
 
-[sub_resource type="DynamicFontData" id=3]
+[sub_resource type="DynamicFontData" id=5]
 font_path = "res://assets/fonts/normal.ttf"
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=6]
 size = 30
-font_data = SubResource( 3 )
+font_data = SubResource( 5 )
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=7]
 content_margin_left = 12.0
 content_margin_top = 17.0
 bg_color = Color( 0, 0, 0, 0.4 )
@@ -37,24 +37,23 @@ border_color = Color( 0.8, 0.8, 0.8, 0.0941176 )
 corner_radius_top_right = 37
 corner_radius_bottom_left = 19
 
-[sub_resource type="DynamicFontData" id=5]
+[sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/fonts/normal.ttf"
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=9]
 size = 18
-font_data = SubResource( 5 )
+font_data = SubResource( 8 )
 
-[sub_resource type="DynamicFontData" id=7]
+[sub_resource type="DynamicFontData" id=10]
 font_path = "res://assets/fonts/normal.ttf"
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=11]
 size = 20
-font_data = SubResource( 7 )
+font_data = SubResource( 10 )
 
 [node name="test" type="Spatial"]
 
 [node name="StaticBody" type="StaticBody" parent="."]
-editor/display_folded = true
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
 mesh = SubResource( 1 )
@@ -67,10 +66,8 @@ shape = SubResource( 2 )
 transform = Transform( 1, 0, 0, 0, 0.78523, 0.619204, 0, -0.619204, 0.78523, 0, 11.2851, 13.24 )
 
 [node name="UID" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="connectionState" type="Node2D" parent="UID"]
-editor/display_folded = true
 position = Vector2( 1024, 0 )
 script = ExtResource( 1 )
 
@@ -88,12 +85,10 @@ text = "Connection state
 scroll_active = false
 
 [node name="connectionPopup" type="Node2D" parent="UID"]
-editor/display_folded = true
 position = Vector2( 230, 100 )
 script = ExtResource( 2 )
 
 [node name="style" type="Node2D" parent="UID/connectionPopup"]
-editor/display_folded = true
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true
@@ -145,14 +140,14 @@ color = Color( 0, 0, 0, 1 )
 
 [node name="Sprite" type="Sprite" parent="UID/connectionPopup/style"]
 scale = Vector2( 1, 68.604 )
-texture = SubResource( 10 )
+texture = SubResource( 4 )
 centered = false
 
 [node name="title" type="RichTextLabel" parent="UID/connectionPopup"]
 margin_top = 17.0
 margin_right = 580.0
 margin_bottom = 59.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
 bbcode_text = "[center]CONNECTION"
 text = "CONNECTION"
@@ -162,12 +157,11 @@ __meta__ = {
 }
 
 [node name="pseudo" type="LineEdit" parent="UID/connectionPopup"]
-editor/display_folded = true
 margin_left = 89.5367
 margin_top = 104.537
 margin_right = 489.537
 margin_bottom = 174.537
-custom_styles/normal = SubResource( 11 )
+custom_styles/normal = SubResource( 7 )
 max_length = 14
 placeholder_text = "Entrez votre pseudo"
 __meta__ = {
@@ -180,18 +174,17 @@ margin_top = 3.0
 margin_right = 405.0
 margin_bottom = 43.0
 mouse_filter = 2
-custom_fonts/normal_font = SubResource( 6 )
+custom_fonts/normal_font = SubResource( 9 )
 custom_colors/default_color = Color( 0.552941, 0.552941, 0.552941, 1 )
 text = "Pseudo :"
 scroll_active = false
 
 [node name="password" type="LineEdit" parent="UID/connectionPopup"]
-editor/display_folded = true
 margin_left = 89.5367
 margin_top = 194.537
 margin_right = 489.537
 margin_bottom = 264.537
-custom_styles/normal = SubResource( 11 )
+custom_styles/normal = SubResource( 7 )
 max_length = 14
 secret = true
 placeholder_text = "Entrez votre mots de passe"
@@ -205,7 +198,7 @@ margin_top = 3.0
 margin_right = 405.0
 margin_bottom = 43.0
 mouse_filter = 2
-custom_fonts/normal_font = SubResource( 6 )
+custom_fonts/normal_font = SubResource( 9 )
 custom_colors/default_color = Color( 0.552941, 0.552941, 0.552941, 1 )
 text = "password :"
 scroll_active = false
@@ -216,7 +209,7 @@ margin_top = 264.0
 margin_right = 580.0
 margin_bottom = 306.0
 mouse_filter = 2
-custom_fonts/normal_font = SubResource( 8 )
+custom_fonts/normal_font = SubResource( 11 )
 custom_colors/default_color = Color( 1, 0, 0, 1 )
 bbcode_enabled = true
 bbcode_text = "[center]ERROR"
@@ -239,7 +232,7 @@ margin_top = -15.0
 margin_right = 105.0
 margin_bottom = 27.0
 mouse_filter = 2
-custom_fonts/normal_font = SubResource( 8 )
+custom_fonts/normal_font = SubResource( 11 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode_enabled = true
 bbcode_text = "[center]Se connecter"
@@ -247,7 +240,6 @@ text = "Se connecter"
 scroll_active = false
 
 [node name="look" type="Node" parent="UID/connectionPopup"]
-editor/display_folded = true
 
 [node name="btnClose" type="Sprite" parent="UID/connectionPopup"]
 modulate = Color( 1, 1, 1, 0.360784 )
