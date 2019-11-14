@@ -84,7 +84,7 @@ function generateFileClass_gd() {
 
 function add_gd_getData(obj, path) {
     var data = "";
-    if (Array.isArray(obj)) {
+    if (obj !== null && Array.isArray(obj)) {
         let prePath = path;
         if (prePath[prePath.length - 1] == "]"){
             prePath = prePath.substring(0, prePath.lastIndexOf("["));
@@ -98,7 +98,7 @@ function add_gd_getData(obj, path) {
             data += add_gd_getData(obj[i], path + "[" + i + "]");
             i += 1;
         }
-    } else if (typeof obj == "object") {
+    } else if (obj !== null && typeof obj == "object") {
         if (path != "") {
             let prePath = path;
             if (prePath[prePath.length - 1] == "]"){
@@ -123,7 +123,7 @@ function add_gd_getData(obj, path) {
 
 function add_gd_setData(obj, path) {
     var data = "";
-    if (Array.isArray(obj)) {
+    if (obj !== null && Array.isArray(obj)) {
         let prePath = path;
         if (prePath[prePath.length - 1] == "]"){
             prePath = prePath.substring(0, prePath.lastIndexOf("["));
@@ -137,7 +137,7 @@ function add_gd_setData(obj, path) {
             data += add_gd_setData(obj[i], path + "[" + i + "]");
             i += 1;
         }
-    } else if (typeof obj == "object") {
+    } else if (obj !== null && typeof obj == "object") {
         if (path != "") {
 
             // Looking for gd classe know
