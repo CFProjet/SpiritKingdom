@@ -87,22 +87,6 @@ function getSpeedVector(direction, speed){
     return direction;
 }
 
-function getNormalisedDirVector3(fromVec3, toVect3){
-    var vec = {x : toVect3.x - fromVec3.x, y : toVect3.y - fromVec3.y, z : toVect3.z - fromVec3.z};
-    return normaliseVector3(vec);
-}
-
-function normaliseVector3(vector3){
-    let norm = getVector3Norm(vector3);
-    var vecNorm = {x : vector3.x / norm, y : vector3.y / norm.y, z : vector3.z/norm};
-    return vecNorm;
-}
-
-function getVector3Norm(vector3){
-    return Math.sqrt(vector3.x * vector3.x + vector3.y * vector3.y, vector3.z * vector3.z);
-}
-
-
 exports.getPlayerState = getPlayerState;
 exports.movePlayer = movePlayer;
 exports.setControlToken = setControlToken;
