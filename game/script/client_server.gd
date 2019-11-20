@@ -110,6 +110,6 @@ func onEventServerReceived(tag, dataObj):
 func _process(delta):
 	_tstamp += delta * 1000;
 	_lastRefreshedPing += delta;
-	if _lastRefreshedPing > 2:
+	if connected && _lastRefreshedPing > 2:
 		_lastRefreshedPing = 0;
 		refreshPing();
