@@ -15,11 +15,13 @@ var connected = false;
 var _initedTimeStamp = false;
 var timeStamp setget, _getTimeStamp;
 var _tstamp = 0;
+var ping = 0;
 
 var serverURL : String = "localhost:7788";
 var serverPROD_URL : String = "dev-rocket.fr:7788";
 
 signal onEventServer
+signal onPingRefreshed
 
 func _ready():
 	WS.connect("onConnected", self, "onConnectedToServer");
@@ -44,13 +46,21 @@ func getConnectionState():
 
 func onConnectedToServer():
 	connected = true;
+	refreshPing();
+
+func refreshPing():
 	_TstampStartRequete = _tstamp;
 	WS.sendServerData(TAG_GET_TIMESTAMP, {}, funcref(self, "_setTstamp"));
 
 var _TstampStartRequete;
+var _lastRefreshedPing = 0;
+
 func _setTstamp(time):
 	var dt = _tstamp - _TstampStartRequete;
+	ping = floor(dt);
 	_tstamp = time + dt * 0.5;
+	_lastRefreshedPing = 0;
+	emit_signal("onPingRefreshed", ping);
 
 
 func onConnectionClosed():
@@ -65,10 +75,11 @@ func getPlayerState(callback : FuncRef):
 	getPlayerObj.userName = userName;
 	WS.sendServerData(TAG_GET_PLAYER, getPlayerObj.getData(), callback);
 
-func movePlayer(direction : Vector3, duration):
+func movePlayer(origin : Vector3, direction : Vector3, duration):
 	var movePlayerObj = BC_EventMove.new();
 	movePlayerObj.controlToken = controlToken;
 	movePlayerObj.userName = userName;
+	movePlayerObj.origin = origin;
 	movePlayerObj.direction = direction;
 	movePlayerObj.duration = duration;
 	WS.sendServerData(TAG_MOVE_PLAYER, movePlayerObj.getData());
@@ -98,3 +109,7 @@ func onEventServerReceived(tag, dataObj):
 	
 func _process(delta):
 	_tstamp += delta * 1000;
+	_lastRefreshedPing += delta;
+	if _lastRefreshedPing > 2:
+		_lastRefreshedPing = 0;
+		refreshPing();

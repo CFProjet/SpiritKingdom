@@ -63,4 +63,12 @@ shadow_enabled = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="debug" type="RichTextLabel" parent="."]
+margin_right = 1030.0
+margin_bottom = 600.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

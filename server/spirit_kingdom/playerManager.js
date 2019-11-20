@@ -60,7 +60,7 @@ function getPlayerState(userName, controlToken){
 }
 
 
-function movePlayer(userName, direction, duration, controlToken){
+function movePlayer(userName, origin, direction, duration, controlToken){
         // ON VERIFIE QUE L'UTILISATEUR EST BIEN PROPRIETAIRE DU JOUEUR
     if (!isValideControlToken(userName, controlToken))
         return {error : true, errorStr : "invalide token"};
@@ -69,6 +69,7 @@ function movePlayer(userName, direction, duration, controlToken){
     var state = playerStateBase.get(userName, "state");
     stateManager.clearEvolve(state);
     stateManager.applyEvolve(state, "position");
+    state.position = origin;
     var evolve = new BC.BC_Evolve();
     evolve.property = "position";
     evolve.speed = getSpeedVector(direction, state.moveSpeed);

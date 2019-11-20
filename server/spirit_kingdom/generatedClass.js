@@ -23,6 +23,7 @@ class BC_EventMove {
    constructor(){
        this.controlToken = "token";
        this.userName = "userName";
+       this.origin = {x : 0,   y : 0,   z : 0};
        this.direction = {x : 0,   y : 0,   z : 0};
        this.duration = 0;
  }
