@@ -3,8 +3,9 @@
 [ext_resource path="res://scene/map/map.gd" type="Script" id=1]
 
 [sub_resource type="NavigationMesh" id=1]
-vertices = PoolVector3Array( -1.3, 1.2, -1.6, 0.200001, 1.2, -1.6, 0.200001, 1.2, -9.4, -9.4, 1.2, -0.0999994, -1.6, 1.2, -0.0999994, -1.3, 1.2, -1.6, 0.200001, 1.2, -9.4, -9.4, 1.2, -9.4, 0.200001, 1.2, -9.4, 0.200001, 1.2, -1.6, 1.4, 1.2, -1.6, 1.4, 1.2, -1.6, 1.7, 1.2, -0.0999994, 9.5, 1.2, -0.0999994, 9.5, 1.2, -9.4, 0.200001, 1.2, -9.4, -1.6, 1.2, 1.4, -1.6, 1.2, -0.0999994, -9.4, 1.2, -0.0999994, 0.200001, 1.2, 9.5, 0.200001, 1.2, 1.7, -1.6, 1.2, 1.4, -1.6, 1.2, 1.4, -9.4, 1.2, -0.0999994, -9.4, 1.2, 9.5, 0.200001, 1.2, 9.5, 9.5, 1.2, -0.0999994, 1.7, 1.2, -0.0999994, 1.7, 1.2, 1.4, 1.7, 1.2, 1.4, 0.200001, 1.2, 1.7, 0.200001, 1.2, 9.5, 9.5, 1.2, 9.5, 9.5, 1.2, -0.0999994 )
-polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 7, 6, 3 ), PoolIntArray( 3, 6, 5 ), PoolIntArray( 3, 5, 4 ), PoolIntArray( 10, 9, 8 ), PoolIntArray( 15, 14, 11 ), PoolIntArray( 11, 14, 12 ), PoolIntArray( 12, 14, 13 ), PoolIntArray( 18, 17, 16 ), PoolIntArray( 21, 20, 19 ), PoolIntArray( 25, 24, 22 ), PoolIntArray( 22, 24, 23 ), PoolIntArray( 28, 27, 26 ), PoolIntArray( 33, 32, 29 ), PoolIntArray( 29, 32, 30 ), PoolIntArray( 30, 32, 31 ) ]
+vertices = PoolVector3Array( 2, 1.2, -2, 2.5, 1.2, 0, 9, 1.2, 0, -9, 1.2, 0, -2, 1.2, 0, -1.5, 1.2, -2, 0, 1.2, -9, -9, 1.2, -9, 2, 1.2, -2, 9, 1.2, 0, 9, 1.2, -9, 0, 1.2, -9, -1.5, 1.2, -2, 2, 1.2, -2, 0, 1.2, -9, 9, 1.2, 0, 2.5, 1.2, 0, 1.5, 1.2, 2.5, 0, 1.2, 9, 9, 1.2, 9, -1.5, 1.2, 2.5, -2, 1.2, 0, -9, 1.2, 0, -1.5, 1.2, 2.5, -9, 1.2, 0, -9, 1.2, 9, 0, 1.2, 9, 1.5, 1.2, 2.5, -1.5, 1.2, 2.5, 0, 1.2, 9 )
+polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 7, 6, 3 ), PoolIntArray( 3, 6, 5 ), PoolIntArray( 3, 5, 4 ), PoolIntArray( 11, 10, 8 ), PoolIntArray( 8, 10, 9 ), PoolIntArray( 14, 13, 12 ), PoolIntArray( 19, 18, 15 ), PoolIntArray( 15, 18, 17 ), PoolIntArray( 15, 17, 16 ), PoolIntArray( 22, 21, 20 ), PoolIntArray( 26, 25, 23 ), PoolIntArray( 23, 25, 24 ), PoolIntArray( 29, 28, 27 ) ]
+cell/size = 0.5
 cell/height = 0.1
 
 [sub_resource type="CubeMesh" id=2]
@@ -56,7 +57,7 @@ current = true
 [node name="UID" type="CanvasLayer" parent="."]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.57589, 0.817527, 5.401e-09, 0.0660201, -0.0465065, 0.996734, 0.814857, -0.574009, -0.0807558, 0, 3.48809, 0 )
+transform = Transform( 0.57589, 0.817527, 5.401e-009, 0.0660201, -0.0465065, 0.996734, 0.814857, -0.574009, -0.0807558, 0, 3.48809, 0 )
 light_energy = 0.5
 shadow_enabled = true
 

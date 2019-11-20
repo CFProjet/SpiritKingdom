@@ -4,7 +4,7 @@ class_name Map
 
 const RAY_LENGTH=1000
 var playerPFB = preload("res://scene/entity/player_test.tscn");
-var path=[]
+var path:PoolVector3Array=[]
 var server_entity_map : ServerEntityMap;
 var entitys = {};
 onready var timer_nextpath:Timer=$Timer
@@ -86,4 +86,4 @@ func _on_Timer_timeout():
 	print("time out"+str(path.size()))
 	print(path)
 	if path.size()>0:
-		move(path[-1])
+		move(path[path.size()-1])
