@@ -24,6 +24,9 @@ func _ready():
 	WS.connect("onConnected", self, "onConnectedToServer");
 	WS.connect("onConnectionClosed", self, "onConnectionClosed");
 	WS.connect("onServerDataReceived", self, "onEventServerReceived");
+	
+	# DISABLE AUTO RECONNECTION FOR NOW CAUSE IT MAKE THE GAME FREEZE
+	#WS.auto_reconnect = true;
 	WS.startConnection(serverURL);
 
 func getConnectionState():
