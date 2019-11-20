@@ -50,7 +50,7 @@ class BC_PlayerState {
        this.lifeMax = 200;
        this.experience = 1;
        this.level = 1;
-       this.moveSpeed = 100;
+       this.moveSpeed = 10;
        this.position = {x : 0,   y : 0,   z : 0};
        this.evolveDictionnary = {};
        this.lastRefreshTime = 0;
