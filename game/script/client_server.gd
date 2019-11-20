@@ -66,7 +66,7 @@ func movePlayer(direction : Vector3, duration):
 	WS.sendServerData(TAG_MOVE_PLAYER, movePlayerObj.getData());
 
 func getServerResponseError(objServer):
-	if objServer is Object:
+	if typeof(objServer) == typeof({}):
 		if objServer.has("error"):
 			return objServer.errorStr;
 	return null;
