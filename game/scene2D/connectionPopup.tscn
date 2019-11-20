@@ -4,22 +4,21 @@
 [ext_resource path="res://assets/images/interface/btn_blue.png" type="Texture" id=2]
 [ext_resource path="res://assets/images/interface/close_btn_x64.png" type="Texture" id=3]
 
-
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 0.160784, 0.592157, 0.968627, 0.262745, 0, 0, 0, 0 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 width = 580
 
-[sub_resource type="DynamicFontData" id=5]
+[sub_resource type="DynamicFontData" id=3]
 font_path = "res://assets/fonts/normal.ttf"
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=4]
 size = 30
-font_data = SubResource( 5 )
+font_data = SubResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=5]
 content_margin_left = 12.0
 content_margin_top = 17.0
 bg_color = Color( 0, 0, 0, 0.4 )
@@ -31,22 +30,21 @@ border_color = Color( 0.8, 0.8, 0.8, 0.0941176 )
 corner_radius_top_right = 37
 corner_radius_bottom_left = 19
 
+[sub_resource type="DynamicFontData" id=6]
+font_path = "res://assets/fonts/normal.ttf"
+
+[sub_resource type="DynamicFont" id=7]
+size = 18
+font_data = SubResource( 6 )
+
 [sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/fonts/normal.ttf"
 
 [sub_resource type="DynamicFont" id=9]
-size = 18
+size = 20
 font_data = SubResource( 8 )
 
-[sub_resource type="DynamicFontData" id=10]
-font_path = "res://assets/fonts/normal.ttf"
-
-[sub_resource type="DynamicFont" id=11]
-size = 20
-font_data = SubResource( 10 )
-
 [node name="connectionPopup" type="Node2D"]
-editor/display_folded = true
 position = Vector2( 230, 100 )
 script = ExtResource( 1 )
 
@@ -103,14 +101,14 @@ color = Color( 0, 0, 0, 1 )
 
 [node name="Sprite" type="Sprite" parent="style"]
 scale = Vector2( 1, 68.604 )
-texture = SubResource( 4 )
+texture = SubResource( 2 )
 centered = false
 
 [node name="title" type="RichTextLabel" parent="."]
 margin_top = 17.0
 margin_right = 580.0
 margin_bottom = 59.0
-custom_fonts/normal_font = SubResource( 6 )
+custom_fonts/normal_font = SubResource( 4 )
 bbcode_enabled = true
 bbcode_text = "[center]CONNECTION"
 text = "CONNECTION"
@@ -125,7 +123,7 @@ margin_left = 89.5367
 margin_top = 104.537
 margin_right = 489.537
 margin_bottom = 174.537
-custom_styles/normal = SubResource( 7 )
+custom_styles/normal = SubResource( 5 )
 max_length = 14
 placeholder_text = "Entrez votre pseudo"
 __meta__ = {
@@ -138,7 +136,7 @@ margin_top = 3.0
 margin_right = 405.0
 margin_bottom = 43.0
 mouse_filter = 2
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 7 )
 custom_colors/default_color = Color( 0.552941, 0.552941, 0.552941, 1 )
 text = "Pseudo :"
 scroll_active = false
@@ -149,7 +147,7 @@ margin_left = 89.5367
 margin_top = 194.537
 margin_right = 489.537
 margin_bottom = 264.537
-custom_styles/normal = SubResource( 7 )
+custom_styles/normal = SubResource( 5 )
 max_length = 14
 secret = true
 placeholder_text = "Entrez votre mots de passe"
@@ -163,7 +161,7 @@ margin_top = 3.0
 margin_right = 405.0
 margin_bottom = 43.0
 mouse_filter = 2
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 7 )
 custom_colors/default_color = Color( 0.552941, 0.552941, 0.552941, 1 )
 text = "password :"
 scroll_active = false
@@ -174,7 +172,7 @@ margin_top = 264.0
 margin_right = 580.0
 margin_bottom = 306.0
 mouse_filter = 2
-custom_fonts/normal_font = SubResource( 11 )
+custom_fonts/normal_font = SubResource( 9 )
 custom_colors/default_color = Color( 1, 0, 0, 1 )
 bbcode_enabled = true
 bbcode_text = "[center]ERROR"
@@ -197,7 +195,7 @@ margin_top = -15.0
 margin_right = 105.0
 margin_bottom = 27.0
 mouse_filter = 2
-custom_fonts/normal_font = SubResource( 11 )
+custom_fonts/normal_font = SubResource( 9 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode_enabled = true
 bbcode_text = "[center]Se connecter"
@@ -216,6 +214,8 @@ centered = false
 [node name="btn_close" type="Control" parent="btnClose"]
 margin_right = 64.0
 margin_bottom = 64.0
+[connection signal="focus_entered" from="pseudo" to="." method="_on_pseudo_focus_entered"]
+[connection signal="focus_entered" from="password" to="." method="_on_password_focus_entered"]
 [connection signal="gui_input" from="doneBtn/doneBtn" to="." method="onClickBtnDone"]
 [connection signal="mouse_entered" from="doneBtn/doneBtn" to="." method="_on_doneBtn_mouse_entered"]
 [connection signal="mouse_exited" from="doneBtn/doneBtn" to="." method="_on_DoneBtn_mouse_exited"]
