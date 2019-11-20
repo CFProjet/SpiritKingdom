@@ -76,13 +76,9 @@ class BoltDataBase {
         if (this.hasChanged == false)
             return;
         let data = JSON.stringify(this._dataBase);
-        let writeFile = (() => {
-            fs.writeFileSync(this._filePath, data);
-        }).bind(this);
         if (fs.existsSync(this._directoryPath) != true)
-            fs.mkdir(this._directoryPath, { recursive: true }, writeFile);
-        else
-            writeFile();
+        fs.mkdirSync(this._directoryPath, { recursive: true });
+        fs.writeFileSync(this._filePath, data);
     }
 
     _saveLater() {
