@@ -6,6 +6,10 @@ var ws_client = null
 var myUID = null;
 var connected = false;
 
+var _url = null;
+var auto_reconnect = false;
+var auto_reco_time = 0;
+
 var dicoCB = {};
 
 signal onConnected
@@ -23,6 +27,7 @@ func _ready():
 	randomize();
 
 func startConnection(url):
+	_url = url;
 	ws_client = WebSocketClient.new();
 	ws_client.connect("connection_established", self, "_connection_established")
 	ws_client.connect("connection_closed", self, "_connection_closed")
@@ -35,6 +40,7 @@ func startConnection(url):
 	if error != OK:
 		print("Websocket connection error, check your internet connection");
 		print(error);
+		ws_client.disconnect_from_host();		
 	set_process(true);
 
 func sendServerData(tag : String, objData, callback :FuncRef = null):
@@ -81,7 +87,26 @@ func _connection_error():
 	connected = false;
 	emit_signal("onConnectionError");
 
+func try_reconnection():
+	print("reconnection try to " + _url);
+	var protocol = PoolStringArray();
+	protocol.append("HTTPS");
+	var error = ws_client.connect_to_url(_url, protocol);
+	if error != OK:
+		print("Websocket connection error, check your internet connection");
+		print(error);
+
 func _process(delta):
+	# AUTO RECONNECTION
+	if !connected && ws_client != null && auto_reconnect:
+		auto_reco_time += delta;
+		if auto_reco_time > 3:
+			auto_reco_time = 0;
+			try_reconnection();
+	
+	if ws_client == null:
+		return;
+	
 	if ws_client.get_connection_status() == ws_client.CONNECTION_CONNECTING || ws_client.get_connection_status() == ws_client.CONNECTION_CONNECTED:
 		ws_client.poll();
 

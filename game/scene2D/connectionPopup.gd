@@ -13,10 +13,11 @@ signal onConnected
 signal onClosePopup
 
 func _ready():
-	pass # Replace with function body.
-
-
-
+	var pseudoSaved = getLocalPseudo();
+	if pseudoSaved:
+		pseudoTxt.text = pseudoSaved;
+		passwordTxt.call_deferred("grab_focused");
+	
 func connection():
 	errorTxt.visible = false;
 	var pseudo = pseudoTxt.text;
@@ -69,6 +70,7 @@ func onLogin(serverObj):
 		errorTxt.bbcode_text = "[center]" + errorStr;
 		errorTxt.visible = true;
 	else:
+		saveLocal();
 		var controlToken = serverObj;
 		emit_signal("onConnected");
 		queue_free();
@@ -100,3 +102,42 @@ func _on_doneBtn_mouse_entered():
 func _on_DoneBtn_mouse_exited():
 	DoneBtn.scale.x = 1;
 	DoneBtn.scale.y = 1;
+
+
+# SAVE AND LOAD USER PROFILE LOCALY
+func saveLocal():
+	var pseudo = pseudoTxt.text;
+	LocalStorage.saveData("login_user", pseudo);
+
+func getLocalPseudo():
+	return LocalStorage.getData("login_user");
+
+# CHANGE FOCUS WITH TAB (next) AND SHIFT + TAB (back)
+var focusedNode = null;
+var backFocus = false;
+func _input(event : InputEvent):
+	if event is InputEventKey && event.scancode == KEY_SHIFT:
+		if event.is_pressed():
+			backFocus = true;
+		else:
+			backFocus = false;
+	if event is InputEventKey && event.is_pressed() && event.scancode == KEY_TAB:
+		if backFocus:
+			backFocus();			
+		else:
+			nextFocus();
+
+func nextFocus():
+	if focusedNode == pseudoTxt:
+		passwordTxt.call_deferred("grab_focus");
+
+func backFocus():
+	if focusedNode == passwordTxt:
+		pseudoTxt.call_deferred("grab_focus");
+
+func _on_pseudo_focus_entered():
+	focusedNode = pseudoTxt;
+
+
+func _on_password_focus_entered():
+	focusedNode = passwordTxt;

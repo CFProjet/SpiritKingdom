@@ -71,6 +71,7 @@ config/icon="res://icon.png"
 WS="*res://script/web_socket.gd"
 CServer="*res://script/client_server.gd"
 StateManager="*res://script/state_manager.gd"
+LocalStorage="*res://script/local_storage.gd"
 
 [rendering]
 

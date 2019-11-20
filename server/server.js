@@ -1,4 +1,5 @@
 var fs = require('file-system');
+var bolt_bdd = require("./src/bolt_bdd"); 
 
 var httpsOptions;
 
@@ -16,6 +17,8 @@ for (var i = 2; i < process.argv.length; i++) {
     if (id == "PROD")
         localDevMode = false;
 }
+
+bolt_bdd.setAppRoot(__dirname);
 
 /* SERVER INFORMATION */
 console.log("- " + appName + "-");
@@ -38,3 +41,6 @@ if (localDevMode != true){
 
 // LAUNCH SERVERS
 require("./spirit_kingdom/spirit_kingdom.js").init(localDevMode, httpsOptions);
+
+// SAVE PID TO MANAGE IT OR KILL IT IF NEEDED
+fs.fs.writeFileSync(__dirname + "/lastPID", "" + process.pid);

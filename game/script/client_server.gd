@@ -17,6 +17,7 @@ var timeStamp setget, _getTimeStamp;
 var _tstamp = 0;
 
 var serverURL : String = "localhost:7788";
+var serverPROD_URL : String = "dev-rocket.fr:7788";
 
 signal onEventServer
 
@@ -24,7 +25,14 @@ func _ready():
 	WS.connect("onConnected", self, "onConnectedToServer");
 	WS.connect("onConnectionClosed", self, "onConnectionClosed");
 	WS.connect("onServerDataReceived", self, "onEventServerReceived");
-	WS.startConnection(serverURL);
+	# DISABLE AUTO RECONNECTION FOR NOW CAUSE IT MAKE THE GAME FREEZE
+	#WS.auto_reconnect = true;
+
+func connectToServer(prod : bool = false):
+	if prod:
+		WS.startConnection(serverPROD_URL);
+	else:
+		WS.startConnection(serverURL);
 
 func getConnectionState():
 	if !connected:
@@ -66,7 +74,7 @@ func movePlayer(direction : Vector3, duration):
 	WS.sendServerData(TAG_MOVE_PLAYER, movePlayerObj.getData());
 
 func getServerResponseError(objServer):
-	if objServer is Object:
+	if typeof(objServer) == typeof({}):
 		if objServer.has("error"):
 			return objServer.errorStr;
 	return null;

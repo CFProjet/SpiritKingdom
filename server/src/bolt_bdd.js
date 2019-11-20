@@ -10,9 +10,9 @@ exitHandler.onExit(() => {
 });
 
 
-
 var boltDBUsed = {};
 var flashDataBase = {};
+var appRoot = "";
 
 class BoltDataBase {
     constructor(directoryPath, dataBaseName, uid) {
@@ -24,6 +24,8 @@ class BoltDataBase {
         this._saveProcessing = false;
         this._directoryPath = directoryPath;
         this._dataBaseName = dataBaseName;
+        if (appRoot)
+            this.directoryPath = appRoot + '/' + this._directoryPath;
         this._filePath = directoryPath + '/' + dataBaseName + '.blt';
         this._dataBase = {};
 
@@ -74,13 +76,24 @@ class BoltDataBase {
         if (this.hasChanged == false)
             return;
         let data = JSON.stringify(this._dataBase);
-        let writeFile = (() => {
-            fs.writeFileSync(this._filePath, data);
-        }).bind(this);
         if (fs.existsSync(this._directoryPath) != true)
-            fs.mkdir(this._directoryPath, { recursive: true }, writeFile);
-        else
-            writeFile();
+            this._mkdirRecursive(this._directoryPath);
+        fs.writeFileSync(this._filePath, data);
+    }
+
+    _mkdirRecursive(path){
+        var pathTab = path.split("/");
+        var i = 0;
+        var len = pathTab.length;
+        var curPath = "";
+        while (i < len){
+            if (i != 0)
+                curPath += "/";
+            curPath += pathTab[i];
+            if (!fs.existsSync(curPath))
+                fs.mkdirSync(curPath);
+            i += 1;
+        }
     }
 
     _saveLater() {
@@ -88,19 +101,19 @@ class BoltDataBase {
             return;
         else {
             this._saveProcessing = true;
-            setTimeout(() => {
+            setTimeout((() => {
                 if (this._saveProcessing) {
                     this._saveProcessing = false;
                     this._saveDataOnFile();
                 }
-            }, 5000);
+            }).bind(this), 5000);
         }
     }
 
     _saveNowBeforeExit() {
-        if (this._loaded) {
-            this._saveDataOnFile();
+        if (this._loaded && this._saveProcessing) {
             this._saveProcessing = false;
+            this._saveDataOnFile();
         }
     }
 
@@ -248,12 +261,15 @@ function refreshFlashData(){
     }
 }
 
+exports.setAppRoot = (url)=>{appRoot = url};
 exports.setFlashData = setFlashData;
 exports.getFlashData = getFlashData;
 exports.removeFlashData = removeFlashData;
 exports.removeFlashFamily = removeFlashFamily;
 
 exports.getDataBase = (directoryPath, dataBaseName) => {
+    directoryPath = directoryPath.toLowerCase();
+    dataBaseName = dataBaseName.toLowerCase();
     let id = getDBID(directoryPath, dataBaseName);
     let baseObj = boltDBUsed[id];
     if (!baseObj) {
