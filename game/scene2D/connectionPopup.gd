@@ -13,7 +13,10 @@ signal onConnected
 signal onClosePopup
 
 func _ready():
-	pass # Replace with function body.
+	var pseudoSaved = getLocalPseudo();
+	if pseudoSaved:
+		pseudoTxt.text = pseudoSaved;
+		passwordTxt.call_deferred("grab_focused");
 	
 func connection():
 	errorTxt.visible = false;
@@ -67,6 +70,7 @@ func onLogin(serverObj):
 		errorTxt.bbcode_text = "[center]" + errorStr;
 		errorTxt.visible = true;
 	else:
+		saveLocal();
 		var controlToken = serverObj;
 		emit_signal("onConnected");
 		queue_free();
@@ -99,6 +103,14 @@ func _on_DoneBtn_mouse_exited():
 	DoneBtn.scale.x = 1;
 	DoneBtn.scale.y = 1;
 
+
+# SAVE AND LOAD USER PROFILE LOCALY
+func saveLocal():
+	var pseudo = pseudoTxt.text;
+	LocalStorage.saveData("login_user", pseudo);
+
+func getLocalPseudo():
+	return LocalStorage.getData("login_user");
 
 # CHANGE FOCUS WITH TAB (next) AND SHIFT + TAB (back)
 var focusedNode = null;
