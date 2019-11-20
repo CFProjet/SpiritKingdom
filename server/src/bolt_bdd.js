@@ -22,8 +22,8 @@ class BoltDataBase {
         this._loaded = false;
         this._lastTimeDataBaseUsed = null;
         this._saveProcessing = false;
-        this._directoryPath = directoryPath.toLowerCase();
-        this._dataBaseName = dataBaseName.toLowerCase();
+        this._directoryPath = directoryPath;
+        this._dataBaseName = dataBaseName;
         if (appRoot)
             this.directoryPath = appRoot + '/' + this._directoryPath;
         this._filePath = directoryPath + '/' + dataBaseName + '.blt';
@@ -77,8 +77,23 @@ class BoltDataBase {
             return;
         let data = JSON.stringify(this._dataBase);
         if (fs.existsSync(this._directoryPath) != true)
-        fs.mkdirSync(this._directoryPath, { recursive: true });
+            this._mkdirRecursive(this._directoryPath);
         fs.writeFileSync(this._filePath, data);
+    }
+
+    _mkdirRecursive(path){
+        var pathTab = path.split("/");
+        var i = 0;
+        var len = pathTab.length;
+        var curPath = "";
+        while (i < len){
+            if (i != 0)
+                curPath += "/";
+            curPath += pathTab[i];
+            if (!fs.existsSync(curPath))
+                fs.mkdirSync(curPath);
+            i += 1;
+        }
     }
 
     _saveLater() {
@@ -86,19 +101,19 @@ class BoltDataBase {
             return;
         else {
             this._saveProcessing = true;
-            setTimeout(() => {
+            setTimeout((() => {
                 if (this._saveProcessing) {
                     this._saveProcessing = false;
                     this._saveDataOnFile();
                 }
-            }, 5000);
+            }).bind(this), 5000);
         }
     }
 
     _saveNowBeforeExit() {
-        if (this._loaded) {
-            this._saveDataOnFile();
+        if (this._loaded && this._saveProcessing) {
             this._saveProcessing = false;
+            this._saveDataOnFile();
         }
     }
 
@@ -253,6 +268,8 @@ exports.removeFlashData = removeFlashData;
 exports.removeFlashFamily = removeFlashFamily;
 
 exports.getDataBase = (directoryPath, dataBaseName) => {
+    directoryPath = directoryPath.toLowerCase();
+    dataBaseName = dataBaseName.toLowerCase();
     let id = getDBID(directoryPath, dataBaseName);
     let baseObj = boltDBUsed[id];
     if (!baseObj) {
