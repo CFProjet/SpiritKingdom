@@ -56,10 +56,18 @@ current = true
 [node name="UID" type="CanvasLayer" parent="."]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.57589, 0.817527, 5.401e-09, 0.0660201, -0.0465065, 0.996734, 0.814857, -0.574009, -0.0807558, 0, 3.48809, 0 )
+transform = Transform( 0.57589, 0.817527, 5.401e-009, 0.0660201, -0.0465065, 0.996734, 0.814857, -0.574009, -0.0807558, 0, 3.48809, 0 )
 light_energy = 0.5
 shadow_enabled = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="debug" type="RichTextLabel" parent="."]
+margin_right = 1030.0
+margin_bottom = 600.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

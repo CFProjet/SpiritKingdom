@@ -130,7 +130,7 @@ function init(localDevMode, httpsOptions) {
             return { error: true, errorStr: "Objet reference error" };
         
         // ON APPLIQUE LE MOUVEMENT
-        var state = playerManager.movePlayer(data.userName, data.direction, data.duration, data.controlToken);
+        var state = playerManager.movePlayer(data.userName, data.origin, data.direction, data.duration, data.controlToken);
         // ERROR
         if (state["error"])
             return null;
