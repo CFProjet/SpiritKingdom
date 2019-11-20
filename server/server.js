@@ -41,3 +41,6 @@ if (localDevMode != true){
 
 // LAUNCH SERVERS
 require("./spirit_kingdom/spirit_kingdom.js").init(localDevMode, httpsOptions);
+
+// SAVE PID TO MANAGE IT OR KILL IT IF NEEDED
+fs.fs.writeFileSync(__dirname + "/lastPID", "" + process.pid);

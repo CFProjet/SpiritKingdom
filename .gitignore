@@ -4,5 +4,7 @@
 export.cfg
 export_presets.cfg
 
+lastPID
+
 # Mono-specific ignores
 .mono/
