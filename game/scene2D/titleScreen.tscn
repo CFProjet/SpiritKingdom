@@ -1,12 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scene2D/titleScreen.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/scene_title/title.png" type="Texture" id=2]
 [ext_resource path="res://scene2D/connectionState.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scene2D/connectionPopup.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scene2D/selectServer.tscn" type="PackedScene" id=5]
 
 [node name="titleScreen" type="Node2D"]
-editor/display_folded = true
 script = ExtResource( 1 )
 
 [node name="title" type="Sprite" parent="."]
@@ -17,3 +17,6 @@ texture = ExtResource( 2 )
 
 [node name="connectionPopup" parent="." instance=ExtResource( 4 )]
 position = Vector2( 230, 180 )
+
+[node name="SelectServerPopup" parent="." instance=ExtResource( 5 )]
+position = Vector2( 229.951, 179.954 )
