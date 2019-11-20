@@ -34,8 +34,7 @@ func addEntity(id, state):
 	
 	# On initialise la position
 	var pos = StateManager.getRealVal(state, "position");
-	newEntity.translation.x = pos.x;
-	newEntity.translation.z = pos.z;
+	newEntity.translation = pos;
 
 func onEntityMapRefresh(entityTab):
 	# POUR RAFRAICHIR LES ENTITYS ENVIRONNANTE
@@ -58,8 +57,7 @@ func _physics_process(delta):
 	for k in entitys:
 		var entity = entitys[k];
 		var newPos = StateManager.getRealVal(entity.state, "position");
-		entity.node.translation.x = newPos.x;
-		entity.node.translation.z = newPos.z;
+		entity.node.translation = newPos;
 
 
 # CONTROL A LA SOURIS DE SON PERSONNAGE

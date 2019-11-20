@@ -58,9 +58,9 @@ var _lastRefreshedPing = 0;
 func _setTstamp(time):
 	var dt = _tstamp - _TstampStartRequete;
 	ping = floor(dt);
-	emit_signal("onPingRefreshed", ping);
 	_tstamp = time + dt * 0.5;
 	_lastRefreshedPing = 0;
+	emit_signal("onPingRefreshed", ping);
 
 
 func onConnectionClosed():
@@ -110,6 +110,6 @@ func onEventServerReceived(tag, dataObj):
 func _process(delta):
 	_tstamp += delta * 1000;
 	_lastRefreshedPing += delta;
-	if _lastRefreshedPing > 5:
+	if _lastRefreshedPing > 2:
 		_lastRefreshedPing = 0;
 		refreshPing();
