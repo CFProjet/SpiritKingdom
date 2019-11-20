@@ -100,9 +100,9 @@ func _on_DoneBtn_mouse_exited():
 	DoneBtn.scale.y = 1;
 
 
+# CHANGE FOCUS WITH TAB (next) AND SHIFT + TAB (back)
 var focusedNode = null;
 var backFocus = false;
-# FOCUS WITH TAB
 func _input(event : InputEvent):
 	if event is InputEventKey && event.scancode == KEY_SHIFT:
 		if event.is_pressed():
