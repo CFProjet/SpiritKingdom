@@ -10,9 +10,9 @@ exitHandler.onExit(() => {
 });
 
 
-
 var boltDBUsed = {};
 var flashDataBase = {};
+var appRoot = "";
 
 class BoltDataBase {
     constructor(directoryPath, dataBaseName, uid) {
@@ -22,8 +22,10 @@ class BoltDataBase {
         this._loaded = false;
         this._lastTimeDataBaseUsed = null;
         this._saveProcessing = false;
-        this._directoryPath = directoryPath;
-        this._dataBaseName = dataBaseName;
+        this._directoryPath = directoryPath.toLowerCase();
+        this._dataBaseName = dataBaseName.toLowerCase();
+        if (appRoot)
+            this.directoryPath = appRoot + '/' + this._directoryPath;
         this._filePath = directoryPath + '/' + dataBaseName + '.blt';
         this._dataBase = {};
 
@@ -248,6 +250,7 @@ function refreshFlashData(){
     }
 }
 
+exports.setAppRoot = (url)=>{appRoot = url};
 exports.setFlashData = setFlashData;
 exports.getFlashData = getFlashData;
 exports.removeFlashData = removeFlashData;

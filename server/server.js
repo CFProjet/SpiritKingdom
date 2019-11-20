@@ -1,4 +1,5 @@
 var fs = require('file-system');
+var bolt_bdd = require("./src/bolt_bdd"); 
 
 var httpsOptions;
 
@@ -16,6 +17,8 @@ for (var i = 2; i < process.argv.length; i++) {
     if (id == "PROD")
         localDevMode = false;
 }
+
+bolt_bdd.setAppRoot(__dirname);
 
 /* SERVER INFORMATION */
 console.log("- " + appName + "-");
