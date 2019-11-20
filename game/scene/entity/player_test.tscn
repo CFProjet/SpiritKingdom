@@ -1,33 +1,38 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
-[sub_resource type="SpatialMaterial" id=2]
+[ext_resource path="res://scene/entity/player_test.gd" type="Script" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
 flags_unshaded = true
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SphereMesh" id=1]
-material = SubResource( 2 )
+[sub_resource type="SphereMesh" id=2]
+material = SubResource( 1 )
 
-[sub_resource type="ViewportTexture" id=5]
+[sub_resource type="ViewportTexture" id=3]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=4]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 flags_albedo_tex_force_srgb = true
 params_billboard_mode = 1
-albedo_texture = SubResource( 5 )
+albedo_texture = SubResource( 3 )
 
-[sub_resource type="QuadMesh" id=4]
+[sub_resource type="QuadMesh" id=5]
 resource_local_to_scene = true
-material = SubResource( 3 )
+material = SubResource( 4 )
 size = Vector2( 2, 2 )
 
-[node name="player_test" type="Spatial"]
+[sub_resource type="CylinderShape" id=6]
+
+[node name="player_test" type="Area"]
+script = ExtResource( 1 )
 
 [node name="model" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-mesh = SubResource( 1 )
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="Viewport" type="Viewport" parent="."]
@@ -50,5 +55,9 @@ __meta__ = {
 
 [node name="pseudo" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
-mesh = SubResource( 4 )
+mesh = SubResource( 5 )
 material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 6 )

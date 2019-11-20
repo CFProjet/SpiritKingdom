@@ -52,9 +52,15 @@ func _input(event : InputEvent):
 				var myPlayer = entitys[CServer.userName];
 				var pos = StateManager.getRealVal(myPlayer.state, "position");
 				var speed = StateManager.getRealVal(myPlayer.state, "moveSpeed");
-				var direction = pos.direction_to(clickPos);
+				#var direction = pos.direction_to(clickPos);
+				#clickPos=$Navigation.get_closest_point(clickPos)
+				var path=($Navigation.get_simple_path(pos,clickPos))
+				print(path)
+				clickPos=path[1]
+				#clickPos=$Navigation.get_closest_point_to_segment(pos,clickPos)
+				var direction=pos.direction_to(clickPos)
 				# * 1000 CAR EN MILLISECONDE
-				var duration = 1000 * clickPos.distance_to(pos) / speed;
+				var duration = 1000 * pos.distance_to(clickPos)/ speed;
 				CServer.movePlayer(direction, duration);
 #RECUPERE LA POSITION 3D VISEE PAR LA SOURIS
 func get_3d_mouse_pos(mouse_pos):
