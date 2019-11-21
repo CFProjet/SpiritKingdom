@@ -22,6 +22,7 @@ var serverPROD_URL : String = "dev-rocket.fr:7788";
 
 signal onEventServer
 signal onPingRefreshed
+signal onPlayerKicked
 
 func _ready():
 	WS.connect("onConnected", self, "onConnectedToServer");
@@ -98,6 +99,11 @@ func login(userName_ : String, hashPass : String, callback : FuncRef):
 	_onLoginCB = callback;
 	WS.sendServerData(TAG_LOGIN, loginObj.getData(), funcref(self, "onLogin"));
 
+func logout():
+	_loged = false;
+	userName = null;
+	controlToken = null;
+
 func onLogin(objServer):
 	if !getServerResponseError(objServer):
 		_loged = true;
@@ -105,7 +111,13 @@ func onLogin(objServer):
 	_onLoginCB.call_func(objServer);
 	
 func onEventServerReceived(tag, dataObj):
+	if tag == "TAG_KICK":
+		if _loged:
+			logout();
+			emit_signal("onPlayerKicked", dataObj);
+		
 	emit_signal("onEventServer", tag, dataObj);
+
 	
 func _process(delta):
 	_tstamp += delta * 1000;

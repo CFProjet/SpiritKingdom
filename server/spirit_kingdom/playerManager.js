@@ -43,6 +43,9 @@ function isValideControlToken(userName, controlToken){
         return false;
     }
 
+    // SI TOUT EST OK ON MET A JOUR LA DATE DU TOKEN
+    playerStateBase.set(userName, "controlTokenDate", Date.now());
+    playerStateBase.stopUse();
     return true;
 }
 
