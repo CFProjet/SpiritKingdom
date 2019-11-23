@@ -17,7 +17,8 @@ position(x,y,z) | position(x,y,z)|position(x,y,z)
    
    ## Effect
    Les effets décrivent les propriété modifiés, sur un Destructible les effets décrivent une evolution en cours, sur un EffectArea ils décrivent les modification à affecter aux destructibles cibles
-   Effect|     
+   
+   Effect| - 
    -----|-----
    name|
    property|
