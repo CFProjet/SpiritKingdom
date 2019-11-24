@@ -119,6 +119,11 @@ function init(localDevMode, httpsOptions) {
     
         // ON ENVOIS L'ETAT DU JOUEUR A L'UTILISATEUR ET AUX AUTRES UTILISATEUR
         var state = playerManager.getPlayerState(data.userName, data.controlToken);
+        if (state["error"])
+        {
+            kickPlayer(clientWs, "Player afk");            
+            return null;
+        }
         eventMapManager.refreshPlayerPosition(data.userName, state.position, state,  clientWs);
         return state;
     });
@@ -133,10 +138,17 @@ function init(localDevMode, httpsOptions) {
         var state = playerManager.movePlayer(data.userName, data.origin, data.direction, data.duration, data.controlToken);
         // ERROR
         if (state["error"])
+        {
+            kickPlayer(clientWs, "Player afk");
             return null;
+        }
         // ON RAFRAICHIT LA MAP
         eventMapManager.refreshPlayerPosition(data.userName, state.position, state, clientWs);
     });
+}
+
+function kickPlayer(clientWs, kickStr){
+    wssGodot.sendclientEvent("TAG_KICK", kickStr, clientWs);
 }
 
 

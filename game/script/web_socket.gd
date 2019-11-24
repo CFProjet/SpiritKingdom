@@ -97,8 +97,12 @@ func try_reconnection():
 		print(error);
 
 func _process(delta):
+	
+	if ws_client == null:
+		return;
+	
 	# AUTO RECONNECTION
-	if !connected && ws_client != null && auto_reconnect:
+	if !connected && auto_reconnect:
 		auto_reco_time += delta;
 		if auto_reco_time > 3:
 			auto_reco_time = 0;
