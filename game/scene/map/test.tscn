@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scene/map/map.gd" type="Script" id=1]
 
@@ -8,7 +8,11 @@ polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 7, 6, 3 ), PoolIntArray( 3, 
 cell/size = 0.5
 cell/height = 0.1
 
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0.141176, 0.0392157, 0.0392157, 1 )
+
 [sub_resource type="CubeMesh" id=2]
+material = SubResource( 7 )
 size = Vector3( 20, 2, 20 )
 
 [sub_resource type="BoxShape" id=3]
@@ -51,15 +55,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 shape = SubResource( 6 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.78523, 0.619204, 0, -0.619204, 0.78523, 0, 11.2851, 13.24 )
+transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7, 5 )
 current = true
 
 [node name="UID" type="CanvasLayer" parent="."]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.57589, 0.817527, 5.401e-009, 0.0660201, -0.0465065, 0.996734, 0.814857, -0.574009, -0.0807558, 0, 3.48809, 0 )
+transform = Transform( 0.544459, 0.805717, -0.233207, 0.198929, 0.146062, 0.969068, 0.814857, -0.574009, -0.0807559, 0, 3.48809, 0 )
 light_energy = 0.5
 shadow_enabled = true
+shadow_contact = 0.1
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

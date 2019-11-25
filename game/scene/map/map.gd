@@ -101,6 +101,6 @@ func sendMoveToServer():
 		
 		# PREPARE NEW POINT
 		timer_nextpath.start(duration/1000);
-
+		
 func _on_Timer_timeout():
 	sendMoveToServer();
