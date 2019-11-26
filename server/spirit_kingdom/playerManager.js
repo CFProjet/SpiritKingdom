@@ -1,4 +1,5 @@
 var boltDataBase = require("../src/bolt_bdd");
+var tools = require("../src/tools");
 var BC = require("./generatedClass");
 
 var stateManager = require("./stateManager");
@@ -16,6 +17,9 @@ function setControlToken(userName, controlToken){
     // SI LE STATE N'EXISTE PAS, ON CREER  l'ETAT D'ORIGINE
     if (state == null){
         state = new BC.BC_PlayerState();
+        state.type = "player";
+        state.groupes = ["player"];
+        state.uniqueID = tools.getUniqueID("player");
         state.userName = userName;
         state.creationTime = Date.now();
         playerStateBase.set(userName, "state", state);
