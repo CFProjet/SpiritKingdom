@@ -100,8 +100,10 @@ function writeProperty_gd(obj){
     var data = "";
     for (k in obj) {
         var val = obj[k];
-        if (k == "extendClass")
+        if (k == "extendClass"){
             data += writeProperty_gd(objDictionnary[val]);
+            continue;
+        }
         data += "\nvar " + k + " = "
         data += getStringData_gd(val);
         data += ";";
