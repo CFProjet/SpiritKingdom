@@ -1,10 +1,10 @@
 function getRealVal(state, property){
     var curVal = getCpy(state[property]);
-	var evolveTab = state.evolveDictionnary;
-	for (let k in evolveTab){
-        var evolve = evolveTab[k];
-        if (evolve.property == property){
-            var diff = getEvolveValue(evolve);
+	var effectTab = state.effectDict;
+	for (let k in effectTab){
+        var effect = effectTab[k];
+        if (effect.property == property){
+            var diff = getEffectValue(effect);
             if (typeof curVal == "object"){
                 for (let kVal in curVal)
                     curVal[kVal] += diff[kVal];
@@ -17,11 +17,11 @@ function getRealVal(state, property){
 }
 
 
-function getEvolveValue(evolve){
+function getEffectValue(effect){
 	var val;
-    var duration = evolve.duration;
-    var speed = evolve.speed;
-    var dt = Math.min(duration, (Date.now() - evolve.time)) * 0.001;
+    var duration = effect.duration;
+    var speed = effect.speed;
+    var dt = Math.min(duration, (Date.now() - effect.creationTime)) * 0.001;
 	if (typeof speed == "object"){
         val = {};
 		for (var k in speed)
@@ -32,43 +32,43 @@ function getEvolveValue(evolve){
 	return val;
 }
 
-function clearEvolve(state){
-    var curEvolveTab = state.evolveDictionnary;
+function clearEffect(state){
+    var curEffectTab = state.effectDict;
     var now = Date.now();
-    for (var ek in curEvolveTab){
-        var evolve = curEvolveTab[ek];
-        let property = evolve.property;
-        if (evolve.time + evolve.duration >= now){
-            var diff = getEvolveValue(evolve);
+    for (var ek in curEffectTab){
+        var effect = curEffectTab[ek];
+        let property = effect.property;
+        if (effect.creationTime + effect.duration >= now){
+            var diff = getEffectValue(effect);
             if (typeof state[property] == "object"){
                 for (var k in state[property])
                     state[property][k] += diff[k];
             }else
                 state[property] += diff;
-            delete curEvolveTab[ek];
+            delete curEffectTab[ek];
         }
     }
 }
 
-function applyEvolve(state, property){
-    var curEvolveTab = state.evolveDictionnary;
-    for (var ek in curEvolveTab){
-        var evolve = curEvolveTab[ek];
-        if (evolve.property == property){
-            var diff = getEvolveValue(evolve);
+function applyEffect(state, property){
+    var curEffectTab = state.effectDict;
+    for (var ek in curEffectTab){
+        var effect = curEffectTab[ek];
+        if (effect.property == property){
+            var diff = getEffectValue(effect);
             if (typeof state[property] == "object"){
                 for (var k in state[property])
                     state[property][k] += diff[k];
             }else
                 state[property] += diff;
-            delete curEvolveTab[ek];
+            delete curEffectTab[ek];
         }
     }
 }
 
-function addEvolve(state, evolve){
+function addEffect(state, effect){
     var id = "t_" + Date.now() + Math.floor(Math.random() * 100000);
-    state.evolveDictionnary[id] = evolve;
+    state.effectDict[id] = effect;
 }
 
 
@@ -83,7 +83,7 @@ function getCpy(val){
 }
 
 exports.getRealVal = getRealVal;
-exports.getEvolveValue = getEvolveValue;
-exports.clearEvolve = clearEvolve;
-exports.applyEvolve = applyEvolve;
-exports.addEvolve = addEvolve;
+exports.getEffectValue = getEffectValue;
+exports.clearEffect = clearEffect;
+exports.applyEffect = applyEffect;
+exports.addEffect = addEffect;

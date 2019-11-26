@@ -7,10 +7,7 @@ var type = "";
 var uniqueID = "uid";
 var position = Vector3(0, 0, 0);
 var groupes = [ ];
-var groupes = "BC_Entity";
 var effectDict = {};
-var lastRefreshTime = 1;
-var lastRefreshTime = "BC_Destructible";
 var userName = "userName";
 var creationTime = 0;
 var life = 1;
@@ -28,7 +25,6 @@ func setData(data):
 	self.position.z = data.position.z;
 	self.groupes = [];
 	self.effectDict = {};
-	self.lastRefreshTime = data.lastRefreshTime;
 	self.userName = data.userName;
 	self.creationTime = data.creationTime;
 	self.life = data.life;
@@ -49,7 +45,6 @@ func getData():
 	data.position.z = self.position.z;
 	data.groupes = [];
 	data.effectDict = {};
-	data.lastRefreshTime = self.lastRefreshTime;
 	data.userName = self.userName;
 	data.creationTime = self.creationTime;
 	data.life = self.life;

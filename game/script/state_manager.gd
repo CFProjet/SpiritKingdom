@@ -2,11 +2,11 @@ extends Node
 
 func getRealVal(state, property):
 	var curVal = getCpy(state[property]);
-	var evolveTab = state.evolveDictionnary;
-	for k in evolveTab:
-		var evolve = evolveTab[k];
-		if evolve.property == property:
-			var diff = getEvolveValue(evolve);
+	var effectTab = state.effectDict;
+	for k in effectTab:
+		var effect = effectTab[k];
+		if effect.property == property:
+			var diff = getEffectValue(effect);
 			if typeof(curVal) == typeof({}):
 				for kVal in curVal:
 					curVal[kVal] += diff[kVal];
@@ -16,11 +16,11 @@ func getRealVal(state, property):
 
 func getDestVal(state, property):
 	var curVal = getCpy(state[property]);
-	var evolveTab = state.evolveDictionnary;
-	for k in evolveTab:
-		var evolve = evolveTab[k];
-		if evolve.property == property:
-			var diff = getEvolveValue(evolve, true);
+	var effectTab = state.effectDict;
+	for k in effectTab:
+		var effect = effectTab[k];
+		if effect.property == property:
+			var diff = getEffectValue(effect, true);
 			if typeof(curVal) == typeof({}):
 				for kVal in curVal:
 					curVal[kVal] += diff[kVal];
@@ -28,11 +28,11 @@ func getDestVal(state, property):
 				curVal += diff;
 	return checkAndReturnClass(curVal);
 
-func getEvolveValue(evolve, endVal : bool = false):
+func getEffectValue(effect, endVal : bool = false):
 	var val;
-	var duration = evolve.duration;
-	var speed = evolve.speed;
-	var dt = 0.001 * (duration if endVal else min(duration, (CServer.timeStamp - evolve.time)));
+	var duration = effect.duration;
+	var speed = effect.speed;
+	var dt = 0.001 * (duration if endVal else min(duration, (CServer.timeStamp - effect.creationTime)));
 	if typeof(speed) == typeof({}):
 		val = {};
 		for k in speed:
@@ -41,33 +41,33 @@ func getEvolveValue(evolve, endVal : bool = false):
 		val = dt * speed;
 	return val;
 
-func clearEvolve(state):
-	var curEvolveTab = state.evolveDictionnary;
+func clearEffect(state):
+	var curEffectTab = state.effectDict;
 	var now = CServer.timeStamp;
-	for ek in curEvolveTab:
-		var evolve = curEvolveTab[ek];
-		var property = evolve.property;
-		if evolve.time + evolve.duration >= now:
-			var diff = getEvolveValue(evolve);
+	for ek in curEffectTab:
+		var effect = curEffectTab[ek];
+		var property = effect.property;
+		if effect.creationTime + effect.duration >= now:
+			var diff = getEffectValue(effect);
 			if typeof(state[property]) == typeof({}):
 				for k in state[property]:
 					state[property][k] += diff[k];
 			else:
 				state[property] += diff;
-			curEvolveTab.erase(ek);
+			curEffectTab.erase(ek);
 
-func applyEvolve(state, property):
-	var curEvolveTab = state.evolveDictionnary;
-	for ek in curEvolveTab:
-		var evolve = curEvolveTab[ek];
-		if evolve.property == property:
-			var diff = getEvolveValue(evolve);
+func applyEffect(state, property):
+	var curEffectTab = state.effectDict;
+	for ek in curEffectTab:
+		var effect = curEffectTab[ek];
+		if effect.property == property:
+			var diff = getEffectValue(effect);
 			if typeof(state[property]) == typeof({}):
 				for k in state[property]:
 					state[property][k] += diff[k];
 			else:
 				state[property] += diff;
-			curEvolveTab.erase(ek);
+			curEffectTab.erase(ek);
 
 func getCpy(val):
 	if typeof(val) == typeof({}):

@@ -1,5 +1,4 @@
 {
     "extendClass" : "BC_Entity",
-    "effectDict" : {},
-    "lastRefreshTime" : 1
+    "effectDict" : {}
 }

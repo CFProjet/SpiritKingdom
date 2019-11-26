@@ -8,7 +8,6 @@ class BC_Destructible {
        this.position = {x : 0,   y : 0,   z : 0};
        this.groupes = [];
        this.effectDict = {};
-       this.lastRefreshTime = 1;
  }
 
 }
@@ -94,7 +93,6 @@ class BC_PlayerState {
        this.position = {x : 0,   y : 0,   z : 0};
        this.groupes = [];
        this.effectDict = {};
-       this.lastRefreshTime = 1;
        this.userName = "userName";
        this.creationTime = 0;
        this.life = 1;

@@ -70,15 +70,16 @@ function movePlayer(userName, origin, direction, duration, controlToken){
     
     let playerStateBase = boltDataBase.getDataBase("history/spirit_kingdom/users", "state");
     var state = playerStateBase.get(userName, "state");
-    stateManager.clearEvolve(state);
-    stateManager.applyEvolve(state, "position");
+    stateManager.clearEffect(state);
+    stateManager.applyEffect(state, "position");
     state.position = origin;
-    var evolve = new BC.BC_Evolve();
-    evolve.property = "position";
-    evolve.speed = getSpeedVector(direction, state.moveSpeed);
-    evolve.duration = duration;
-    evolve.time = Date.now();
-    stateManager.addEvolve(state, evolve);
+    var move = new BC.BC_Effect();
+    move.name = "move";
+    move.property = "position";
+    move.speed = getSpeedVector(direction, state.moveSpeed);
+    move.duration = duration;
+    move.creationTime = Date.now();
+    stateManager.addEffect(state, move);
     playerStateBase.set(userName, "state", state);
     playerStateBase.stopUse();
     return state;
