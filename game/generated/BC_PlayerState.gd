@@ -3,7 +3,14 @@
 class_name BC_PlayerState
 
 
-var type = "player";
+var type = "";
+var uniqueID = "uid";
+var position = Vector3(0, 0, 0);
+var groupes = [ ];
+var groupes = "BC_Entity";
+var effectDict = {};
+var lastRefreshTime = 1;
+var lastRefreshTime = "BC_Destructible";
 var userName = "userName";
 var creationTime = 0;
 var life = 1;
@@ -11,12 +18,17 @@ var lifeMax = 200;
 var experience = 1;
 var level = 1;
 var moveSpeed = 10;
-var position = Vector3(0, 0, 0);
-var evolveDictionnary = {};
-var lastRefreshTime = 0;
 
 func setData(data):
 	self.type = data.type;
+	self.uniqueID = data.uniqueID;
+	self.position = Vector3();
+	self.position.x = data.position.x;
+	self.position.y = data.position.y;
+	self.position.z = data.position.z;
+	self.groupes = [];
+	self.effectDict = {};
+	self.lastRefreshTime = data.lastRefreshTime;
 	self.userName = data.userName;
 	self.creationTime = data.creationTime;
 	self.life = data.life;
@@ -24,18 +36,20 @@ func setData(data):
 	self.experience = data.experience;
 	self.level = data.level;
 	self.moveSpeed = data.moveSpeed;
-	self.position = Vector3();
-	self.position.x = data.position.x;
-	self.position.y = data.position.y;
-	self.position.z = data.position.z;
-	self.evolveDictionnary = {};
-	self.lastRefreshTime = data.lastRefreshTime;
 	return self;
 
 
 func getData():
 	var data = {};
 	data.type = self.type;
+	data.uniqueID = self.uniqueID;
+	data.position = {};
+	data.position.x = self.position.x;
+	data.position.y = self.position.y;
+	data.position.z = self.position.z;
+	data.groupes = [];
+	data.effectDict = {};
+	data.lastRefreshTime = self.lastRefreshTime;
 	data.userName = self.userName;
 	data.creationTime = self.creationTime;
 	data.life = self.life;
@@ -43,10 +57,4 @@ func getData():
 	data.experience = self.experience;
 	data.level = self.level;
 	data.moveSpeed = self.moveSpeed;
-	data.position = {};
-	data.position.x = self.position.x;
-	data.position.y = self.position.y;
-	data.position.z = self.position.z;
-	data.evolveDictionnary = {};
-	data.lastRefreshTime = self.lastRefreshTime;
 	return data;

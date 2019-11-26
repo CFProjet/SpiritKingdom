@@ -1,0 +1,12 @@
+{
+    "extendClass" : "BC_Entity",
+    "groupesTarget" : {},
+    "effectTab" : [],
+    "move" : null,
+    "pin" : null,
+    "triggerOnce" : false,
+    "triggered" : false,
+    "cibleCount" : 0,
+    "creationTime" : 10,
+    "duration" : 10
+}

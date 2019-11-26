@@ -1,6 +1,7 @@
 {
+    "name" : "",
     "property" : "",
     "speed" : "",
-    "time" : 0,
+    "creationTime" : 0,
     "duration": 0
 }
