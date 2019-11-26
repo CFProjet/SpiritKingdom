@@ -16,6 +16,8 @@ var _initedTimeStamp = false;
 var timeStamp setget, _getTimeStamp;
 var _tstamp = 0;
 var ping = 0;
+var pingCumul = 0;
+var pingCount = 0;
 
 var serverURL : String = "localhost:7788";
 var serverPROD_URL : String = "dev-rocket.fr:7788";
@@ -59,10 +61,17 @@ var _lastRefreshedPing = 0;
 func _setTstamp(time):
 	var dt = _tstamp - _TstampStartRequete;
 	ping = floor(dt);
+	pingCumul += ping;
+	pingCount += 1;
 	_tstamp = time + dt * 0.5;
 	_lastRefreshedPing = 0;
 	emit_signal("onPingRefreshed", ping);
 
+func getPing():
+	return ping;
+
+func getPingMoyen():
+	return pingCumul / pingCount;
 
 func onConnectionClosed():
 	connected = false;
