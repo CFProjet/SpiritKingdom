@@ -93,15 +93,12 @@ func sendMoveToServer():
 		var target_pos = path[pathProgress];
 		
 		# SEND TO SERVER
-		if pathProgress != 0:
-			pos = path[pathProgress - 1];
 			
 		var direction = pos.direction_to(target_pos)
 		var duration = 1000 * pos.distance_to(target_pos)/ speed;
 		CServer.movePlayer(pos, direction, duration);
 		
 		# PREPARE NEW POINT
-		duration -= CServer.getPingMoyen() * 0.5;
 		duration *= 0.001;
 		timer_nextpath.start(duration);
 		
