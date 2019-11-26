@@ -26,7 +26,7 @@ func getData(key : String):
 	if fileData.has(key):
 		return fileData[key];
 	else:
-		 return null;
+		return null;
 
 func _save():
 	waitTime = 0;
