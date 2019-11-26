@@ -58,8 +58,6 @@ func _physics_process(delta):
 		var entity = entitys[k];
 		var newPos = StateManager.getRealVal(entity.state, "position");
 		entity.node.translation = newPos;
-
-
 # CONTROL A LA SOURIS DE SON PERSONNAGE
 func _input(event : InputEvent):
 	if event is InputEventMouseButton && event.is_pressed() && event.button_index == BUTTON_LEFT:
@@ -81,7 +79,7 @@ func changePath(target_pos : Vector3):
 		var myPlayer = entitys[CServer.userName];
 		var pos = StateManager.getRealVal(myPlayer.state, "position");
 		pathProgress = 0;
-		path = ($Navigation.get_simple_path(pos, target_pos));
+		path = getOptimizedPath(pos, $Navigation.get_simple_path(pos, target_pos));
 		sendMoveToServer();
 
 func sendMoveToServer():
@@ -90,17 +88,56 @@ func sendMoveToServer():
 		var myPlayer = entitys[CServer.userName];
 		var pos = StateManager.getRealVal(myPlayer.state, "position");
 		var speed = StateManager.getRealVal(myPlayer.state, "moveSpeed");
+		
 		# GET NEXT POINT TO REACH
 		var target_pos = path[pathProgress];
-		pathProgress += 1;
 		
 		# SEND TO SERVER
+		if pathProgress != 0:
+			pos = path[pathProgress - 1];
+			
 		var direction = pos.direction_to(target_pos)
 		var duration = 1000 * pos.distance_to(target_pos)/ speed;
 		CServer.movePlayer(pos, direction, duration);
 		
 		# PREPARE NEW POINT
-		timer_nextpath.start(duration/1000);
+		duration -= CServer.getPingMoyen() * 0.5;
+		duration *= 0.001;
+		timer_nextpath.start(duration);
+		
+		# INCREMENTE FOR NEXT PROCESS
+		pathProgress += 1;
 		
 func _on_Timer_timeout():
 	sendMoveToServer();
+
+func getOptimizedPath(origine : Vector3, path_ : PoolVector3Array):
+	var size = path_.size();
+	if size > 1:
+		var opti : PoolVector3Array = [];
+		var cur : Vector3 = origine;
+		var next : Vector3 = path_[0];
+		var direction: Vector3 = next.direction_to(cur);
+		
+		var i = 0;
+		
+		while i < size:
+			next = path_[i];
+			
+			var dist = cur.distance_to(next);
+			var nextDir = next.direction_to(cur);
+				
+			var diffAngle = direction.angle_to(nextDir);
+				
+			if dist > 0.2 && diffAngle > 0.02 :
+				opti.append(next);
+				direction = next.direction_to(cur);
+				cur = next;
+			elif i == size - 1 && dist > 0.5:
+				if opti.size() == 0:
+					opti.append(next);
+				else:
+					opti[opti.size() -1] = next;
+			i += 1;
+		return opti;
+	return path_;
